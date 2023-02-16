@@ -20,8 +20,8 @@ function App() {
 
   return (
     <div className="App">
-       <header style={{backgroundColor: '#0F52BA'}}>
-        <h1 style={{color: '#ADD8E6'}}>BruinBuy</h1>
+       <header style={{backgroundColor: '#071330'}}>
+        <h1 style={{color: '#FFFFFF'}}>BruinBuy</h1>
        </header>
       <Router>
         <Navbar> </Navbar>
