@@ -1,6 +1,5 @@
 import './App.css';
-import "rsuite/dist/rsuite.min.css";
-import { Placeholder } from "rsuite";
+import logo from './bruinBuyLogoWhite.png';
 //do npm install rsuite everytime
 import React from 'react';
 import Navbar from './components/Navbar';
@@ -13,15 +12,13 @@ import Login from './pages/login';
 import SignUp from './pages/signup';
 //npm install react-icons --save
 
-
 function App() {
-
-  const { Paragraph } = Placeholder;
 
   return (
     <div className="App">
        <header style={{backgroundColor: '#071330'}}>
         <h1 style={{color: '#FFFFFF'}}>BruinBuy</h1>
+        <img src={logo} alt="Logo" height={250} width={200} />
        </header>
       <Router>
         <Navbar> </Navbar>
