@@ -6,14 +6,16 @@ export const Nav = styled.nav`
   background: #071330;
   height: 75px;
   display: flex;
-  padding: 0.3rem calc((100vw - 1000px) / 2);
+  padding: 0.3rem calc((100vw - 750px) / 2);
   z-index: 25;
+  align-items: center;
 `;
   
 export const NavLink = styled(Link)`
   color: #FFFFFF;
   display: flex;
   align-items: center;
+  justify-content: center;
   text-decoration: none;
   font-size: 1rem;
   padding: 0 3rem;

@@ -14,15 +14,12 @@ const Navbar = () => {
       <>
         <Nav className="container-fluid">
           <Bars></Bars>
+          <img src={myLogo} alt="Logo" height={70} width={60} />
           <NavMenu>
             <NavLink to='/home' activeStyle>
-            Bruin
-            <img src={myLogo} alt="Logo" height={70} width={60} />
-            Buy
+            BruinBuy
             </NavLink>
-            <NavLink to='/about' activeStyle>
-              About
-            </NavLink>
+            
             <NavLink to='/marketplace' activeStyle>
               MarketPlace
             </NavLink>
