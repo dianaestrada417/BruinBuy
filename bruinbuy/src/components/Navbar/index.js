@@ -7,17 +7,19 @@ import {
   NavBtn,
   NavBtnLink,
 } from './NavbarElements';
+import myLogo from './bruinBuyLogoWhite.png';
 
 const Navbar = () => {
     return (
       <>
-        <Nav>
+        <Nav className="container-fluid">
           <Bars></Bars>
-    
+          <img src={myLogo} alt="Logo" height={70} width={60} />
           <NavMenu>
-            <NavLink to='/about' activeStyle>
-              About
+            <NavLink to='/home' activeStyle>
+            BruinBuy
             </NavLink>
+            
             <NavLink to='/marketplace' activeStyle>
               MarketPlace
             </NavLink>
