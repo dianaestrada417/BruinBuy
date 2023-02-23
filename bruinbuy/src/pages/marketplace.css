@@ -1,0 +1,11 @@
+.h1{
+    display: 'flex';
+    justify-content: 'Center';
+    align-items: 'Left';
+    height: '100vh';
+}
+.item {
+    background-color: rgb(197, 146, 117);
+    margin: 20px;
+    color : white;
+  }
