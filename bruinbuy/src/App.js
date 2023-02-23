@@ -1,6 +1,5 @@
 import './App.css';
 import logo from './bruinBuyLogoWhite.png';
-//do npm install rsuite everytime
 import React from 'react';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -10,7 +9,11 @@ import MarketPlace from './pages/marketplace';
 import Profile from './pages/profile';
 import Login from './pages/login';
 import SignUp from './pages/signup';
+
+//Use these commands before doing npm start
 //npm install react-icons --save
+//npm install react-router-dom
+//npm install --save styled-components
 
 function App() {
 
