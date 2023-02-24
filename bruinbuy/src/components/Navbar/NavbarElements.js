@@ -7,9 +7,11 @@ export const Nav = styled.nav`
   background: #071330;
   height: 75px;
   display: flex;
-  padding: 0.3rem calc((100vw - 750px) / 2);
+  padding: 0.3rem calc((100vw - 1000px) / 2);
   z-index: 25;
   align-items: center;
+  right: 0;
+  left: 0;
 `;
   
 export const NavLink = styled(Link)`

@@ -4,7 +4,7 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/home';
-import About from './pages/about';
+import Chat from './pages/chat';
 import MarketPlace from './pages/marketplace';
 import Profile from './pages/profile';
 import Login from './pages/login';
@@ -24,6 +24,7 @@ function App() {
         <Routes>
         <Route path='/home' exact element={<Home/>}></Route>
         <Route path='/marketplace' element={<MarketPlace/>}></Route>
+        <Route path='/chat' exact element={<Chat/>}></Route>
         <Route path='/profile' element={<Profile/>}></Route>
         <Route path='/signup' element={<SignUp/>}></Route>
         <Route path='/login' element={<Login/>}></Route>

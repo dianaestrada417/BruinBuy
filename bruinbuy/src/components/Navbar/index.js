@@ -19,9 +19,11 @@ const Navbar = () => {
             <NavLink to='/home' activeStyle>
             BruinBuy
             </NavLink>
-            
             <NavLink to='/marketplace' activeStyle>
               MarketPlace
+            </NavLink>
+            <NavLink to='/chat' activeStyle>
+            Chat
             </NavLink>
             <NavLink to='/profile' activeStyle>
               Profile
