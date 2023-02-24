@@ -1,16 +1,13 @@
 import React from 'react';
+import {useState, useEffect} from 'react';
+import {db} from '../firebase-config';
+import {collection, getDocs} from 'firebase/firestore';
+import './chat.css'
   
-const Chat = () => {
+function Chat() {
     return (
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'Center',
-            alignItems: 'Left',
-            height: '100vh'
-          }}
-        >
-        <h1>BruinBuy is a marketplace for all Bruins to sell their products, textbooks, etc and buy anything they need.</h1>
+        <div>
+        <h1>Have questions...Contact a seller here!</h1>
     </div>
   );
 };
