@@ -87,23 +87,11 @@
   }
   
   
-  
-  
   ul, li {
     text-align: left;
     list-style: none;
   }
   
-  p {
-    max-width: 500px;
-    margin-bottom: 12px;
-    line-height: 24px;
-    padding: 10px 20px;
-    border-radius: 25px;
-    position: relative;
-    color: #071330;
-    text-align: center;
-  }
   
   .message {
     display: flex;

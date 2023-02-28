@@ -12,7 +12,7 @@ const Home = () => {
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           justifyContent: 'center'
-        }}>
+          }}>
           <h1 style={{
             fontSize: 50,
             fontWeight: 'bold',
@@ -30,41 +30,41 @@ const Home = () => {
             color: '#071330',
             paddingLeft: 20,
             paddingRight: 20
-          }}>
-            <p style={{
-          fontSize: 25,
-          color: '#071330'
-        }}>
-          BruinBuy is a marketplace for Bruins to post anything they might want to sell. From homemade products to books or furniture, BruinBuy can help you with all of your selling and buying needs!
-        </p>
-        <p style={{
-          fontSize: 18,
-          color: '#071330',
-          justifyContent: 'center'
-          }}>
-          To look at products that you can buy, head to the MarketPlace Page!
-        </p>
-        <p style={{
-          fontSize: 18,
-          color: '#071330',
-          justifyContent: 'center'
-          }}>
-          To post a product you want to sell or look at your profile details, head to the Profile Page!
-        </p>
-        <p style={{
-          fontSize: 18,
-          color: '#071330',
-          justifyContent: 'center'
-          }}>
-          To login to your account, head to the Login Page!
-        </p>
-        <p style={{
-          fontSize: 18,
-          color: '#071330',
-          justifyContent: 'center'
-          }}>
-          To sign up for BruinBuy and become a new member, head to the Sign Up Page!
-        </p>
+            }}>
+              <p style={{
+                fontSize: 25,
+                color: '#071330'
+              }}>
+                BruinBuy is a marketplace for Bruins to post anything they might want to sell. From homemade products to books or furniture, BruinBuy can help you with all of your selling and buying needs!
+              </p>
+              <p style={{
+                fontSize: 18,
+                color: '#071330',
+                justifyContent: 'center'
+                }}>
+                To look at products that you can buy, head to the MarketPlace Page!
+              </p>
+              <p style={{
+                fontSize: 18,
+                color: '#071330',
+                justifyContent: 'center'
+                }}>
+                  To post a product you want to sell or look at your profile details, head to the Profile Page!
+              </p>
+              <p style={{
+                fontSize: 18,
+                color: '#071330',
+                justifyContent: 'center'
+                }}>
+                  To login to your account, head to the Login Page!
+              </p>
+              <p style={{
+                fontSize: 18,
+                color: '#071330',
+                justifyContent: 'center'
+                }}>
+                  To sign up for BruinBuy and become a new member, head to the Sign Up Page!
+              </p>
           </textBlock>
         </background>
 
