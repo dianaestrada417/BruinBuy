@@ -57,6 +57,13 @@ function SignUp() {
   };
 
     return(
+      <>
+      <div>
+        <tr>
+        <td height="75"></td>
+        </tr>
+      </div>
+      
       <div className="form">
           <div className="form-body">
               <div className="username">
@@ -83,7 +90,8 @@ function SignUp() {
           <div class="footer">
             <button onClick={()=>handleSubmit()} type="submit" class="btn">Register</button>
           </div>
-      </div>   
+      </div>  
+      </> 
     )     
 }
 export default SignUp;
