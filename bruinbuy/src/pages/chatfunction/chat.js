@@ -1,7 +1,6 @@
 import React from 'react';
 import './chat.css'
 import {useState, useRef} from 'react';
-
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';

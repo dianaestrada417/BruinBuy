@@ -9,7 +9,7 @@ import Chat from './pages/chatfunction/chat';
 import MarketPlace from './pages/marketplace';
 import Profile from './pages/profile';
 import Login from './pages/login';
-import SignUp from './pages/signup';
+import SignUp from './pages/signupfunction/signup';
 //npm install react-icons --save
 
 function App() {
