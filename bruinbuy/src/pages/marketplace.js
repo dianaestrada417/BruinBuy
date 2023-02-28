@@ -23,9 +23,9 @@ function MarketPlace() {
       <div className="items">
         {items.map((item) => {
           return <div className="item"> 
-            <h1>{item.name}</h1> 
-            <h1>{item.description}</h1>
-            <h1>{item.price}</h1>
+            <h1>{item.itemName}</h1> 
+            <h1>{item.itemDesc}</h1>
+            <h1>{item.itemPrice}</h1>
           </div>
         })}
       </div>
