@@ -1,9 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './home.css';
-
-function Box({text, ...props}) {
-  return <div {...props}>{text}</div>
-}
   
 const Home = () => {
     return (

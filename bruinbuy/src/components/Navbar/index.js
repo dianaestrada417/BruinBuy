@@ -4,8 +4,6 @@ import {
   NavLink,
   Bars,
   NavMenu,
-  NavBtn,
-  NavBtnLink,
 } from './NavbarElements';
 import myLogo from './bruinBuyLogoWhite.png';
 
@@ -34,8 +32,6 @@ const Navbar = () => {
             <NavLink to='/signup' activeStyle>
               Sign Up
             </NavLink>
-            {/* Second Nav */}
-            {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
           </NavMenu>
         </Nav>
       </>
