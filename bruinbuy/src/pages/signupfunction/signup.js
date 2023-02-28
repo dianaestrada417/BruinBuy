@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import React, {useState,useEffect} from 'react';
 import './signup.css'
-import { addDoc } from "firebase/firestore"; 
+import { addDoc, collection } from "firebase/firestore"; 
 
 const app = firebase.initializeApp({
   apiKey: "AIzaSyDhgKNzRyWb5C4S-m8pzsFu1c3nLLwOchI",
@@ -14,11 +14,13 @@ const app = firebase.initializeApp({
   measurementId: "G-77H5X4WMQ6"
 })
 
-export const db = firebase.firestore();
-const signupRef = db.collection('signups');
+
 
 function SignUp() {
-  const [firstName, setFirstName] = useState(null);
+  const db = firebase.firestore();
+  const signupRef = collection(db, "signups");
+  
+    const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [email, setEmail] = useState(null);
     const [password,setPassword] = useState(null);
@@ -82,6 +84,6 @@ function SignUp() {
             <button onClick={()=>handleSubmit()} type="submit" class="btn">Register</button>
           </div>
       </div>   
-    )       
+    )     
 }
 export default SignUp;
