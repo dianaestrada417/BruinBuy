@@ -1,17 +1,17 @@
+import React from 'react';
   
-const SignUp = () => {
+const Login = () => {
+
   return (
     <div
       style={{
-        display: 'flex',
         justifyContent: 'Center',
         alignItems: 'Left',
         height: '100vh'
-      }}
-    >
-      <h1>Sign Up</h1>
+      }} >
+      <h1>Login</h1>
     </div>
   );
 };
   
-export default SignUp;
+export default Login;
