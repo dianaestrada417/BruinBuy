@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import {db} from '../firebase-config';
 import {collection, getDocs} from 'firebase/firestore';
 import './marketplace.css';
-import pic from "../default-placeholder.png";
+import pic from "../pages/default-placeholder.png";
 
 function MarketPlace() {
   const [items, setItems] = useState([]);
