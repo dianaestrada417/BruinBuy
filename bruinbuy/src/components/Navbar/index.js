@@ -23,11 +23,7 @@ const Navbar = () => {
               MarketPlace
             </NavLink>
             <NavLink to='/chat' activeStyle>
-<<<<<<< HEAD
               Chat
-=======
-            Chat
->>>>>>> homepage
             </NavLink>
             <NavLink to='/profile' activeStyle>
               Profile

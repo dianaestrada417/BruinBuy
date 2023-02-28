@@ -35,7 +35,7 @@ const Home = () => {
             paddingLeft: 20,
             paddingRight: 20
           }}>
-<p style={{
+            <p style={{
           fontSize: 25,
           color: '#071330'
         }}>
