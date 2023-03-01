@@ -3,11 +3,13 @@ import {useState, useEffect} from 'react';
 import {db} from '../firebase-config';
 import {collection, getDocs} from 'firebase/firestore';
 import './marketplace.css';
+import pic from "./default-placeholder.png";
 
 function MarketPlace() {
   const [items, setItems] = useState([]);
+  const usersCollection = collection(db, "users");
   const itemsCollection = collection(db, "items");
-
+  
   useEffect(() => {
     const getItems = async () => {
       const data = await getDocs(itemsCollection);
@@ -23,9 +25,14 @@ function MarketPlace() {
       <div className="items">
         {items.map((item) => {
           return <div className="item"> 
-            <h1>{item.itemName}</h1> 
-            <h1>{item.itemDesc}</h1>
-            <h1>{item.itemPrice}</h1>
+            <div className='itemImage'>
+              <img src={pic}></img>
+            </div>
+            <div className='itemInfo'>
+              <h2>{item.itemName}</h2>
+              <p>{item.itemDesc}</p> 
+              <p>{item.itemPrice}</p>
+            </div>
           </div>
         })}
       </div>
