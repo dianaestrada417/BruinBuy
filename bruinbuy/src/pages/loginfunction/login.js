@@ -1,18 +1,10 @@
-import React, {useState, document, useId} from 'react';
+import React, {useState, useContext, useId, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import 'firebase/compat/firestore';
 import firebase from 'firebase/compat/app';
 import { query, where, collection, getDocs, FieldPath, FieldValue } from "firebase/firestore"; 
+import { UserContext } from '../../contexts/UserContext';
 import './login.css'
-
-//this is the global variable with all the user info
-export var user = {
-  id: null,
-  firstname: null,
-  lastname: null,
-  fullname: null,
-  email: null
-};
 
 const Login = () => {
   const db = firebase.firestore();
@@ -22,6 +14,8 @@ const Login = () => {
 
   const [email, setEmail] = useState("");
   const [password,setPassword] = useState("");
+
+  const { setUser } = React.useContext(UserContext);
 
   let navigate = useNavigate();
 
@@ -44,11 +38,8 @@ const Login = () => {
     querySnapshot.forEach((doc) => {
       console.log(doc.id, " => ", doc.data());
       setErrorMessage("");
-      user.id = doc.id;
-      user.firstname = doc.data()["firstName"];
-      user.lastname = doc.data()["lastName"];
-      user.fullname = user.firstname + " " + user.lastname;
-      user.email = doc.data()["email"];
+      setUser(doc.id);
+      localStorage.setItem('user', doc.id);
       navigate('/profile');
     });
     
@@ -57,6 +48,13 @@ const Login = () => {
       setErrorMessage("Incorrect username or password");
     }
   }
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      setUser(loggedInUser);
+    }
+  }, []);
 
   return (
       <>
@@ -84,7 +82,7 @@ const Login = () => {
             <button onClick={()=>handleSubmit()} type="submit" class="btn">Log in</button>
           </div>
       </div>  
-      </> 
+      </>
   );
 };
   
