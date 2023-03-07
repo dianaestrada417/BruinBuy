@@ -1,7 +1,10 @@
 import { db } from '../firebase-config';
 import { collection, deleteDoc, doc, addDoc, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-  
+import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
+import {storage} from "../firebase-config";
+import {v4} from "uuid";
+
 const Profile = () => {
   const [newName, setNewName] = useState("");
   const [newAge, setNewAge] = useState(0);
@@ -10,6 +13,25 @@ const Profile = () => {
   const [newItemDesc, setNewItemDesc] = useState("");
   const [newItemPrice, setNewItemPrice] = useState(0);
   const [newItemQuantity, setNewItemQuantity] = useState(0);
+  //const [images, setImages] = useState("");
+  const [urls, setUrls] = useState([]);
+  
+  const uploadImages = async (event) => {
+    const files = event.target.files;
+    
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const storageRef = ref(storage, `images/${file.name + v4()}`);
+      const snapshot = await uploadBytes(storageRef, file);
+
+      const url = await getDownloadURL(snapshot.ref);
+      console.log(url);
+      setUrls([...urls, url]);
+      //urls.push(url);
+    }
+    console.log(urls);
+    //const urlsString = urls.join(",");
+  }
 
   const [users, setUsers] = useState([]);
   const [items, setItems] = useState([]);
@@ -33,9 +55,12 @@ const Profile = () => {
       data: 'user has no items'
     });
   }
-  const createItem = async () => {
-    await addDoc(usersItemCollectionRef, {itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity) });
 
+  const createItem = async () => {
+    //console.log(urls);
+    await addDoc(usersItemCollectionRef, {itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity) });
+    //uploadImages();
+    //here
   }
 
   const deleteItem = async (id) => {
@@ -118,6 +143,12 @@ const Profile = () => {
         onChange={(event) => {
           setNewItemQuantity(event.target.value)
         }}
+      />
+
+      <h1>Upload Image(s)</h1>
+      <input 
+        type="file" multiple
+        onChange={uploadImages}
       />
 
       <button onClick={createItem}> Add Item </button>

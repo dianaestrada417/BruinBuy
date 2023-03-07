@@ -1,22 +1,34 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
-import {db} from '../firebase-config';
-import {collection, getDocs} from 'firebase/firestore';
+import {db, storage} from '../firebase-config';
+import { getFirestore, collection, collectionGroup, getDoc, getDocs, QuerySnapshot, query, where, get, doc, onSnapshot} from 'firebase/firestore';
 import './marketplace.css';
 import pic from "./default-placeholder.png";
+import { async } from '@firebase/util';
 
 function MarketPlace() {
   const [items, setItems] = useState([]);
-  const usersCollection = collection(db, "users");
-  const itemsCollection = collection(db, "items");
-  
+
   useEffect(() => {
-    const getItems = async () => {
-      const data = await getDocs(itemsCollection);
-      setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
-    };
-    getItems();
-  }, [])
+    const fetchItems = async () => {
+    const userItems = query(collectionGroup(db, 'items'), where('itemPrice', '>', 0));
+      const querySnapshot = await getDocs(userItems);
+      querySnapshot.forEach((doc) => {
+        const data = [];
+        querySnapshot.forEach((doc) => {
+          data.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+        setItems(data);
+      })
+      .catch((error) => {
+        console.log('Error getting documents: ', error);
+      });
+    }
+    fetchItems();
+  }, []);
 
   return (
     <div>

@@ -47,13 +47,20 @@ function SignUp() {
     }
 
     const handleSubmit = async() => {
-      await addDoc(signupRef, {
-              firstName : firstName,
-              lastName: lastName,
-              email: email,
-              password: password,
-              confirmPassword: confirmPassword,
-          })  
+        const document = await addDoc(signupRef, {
+            firstName : firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+        })  
+        const newCollectionRef = collection(db, 'signups', document.id, 'items')
+        await addDoc(newCollectionRef, {
+          itemName: '',
+          itemDesc: '',
+          itemPrice: -1,
+          itemImageLinks: '',
+        })
   };
 
     return(

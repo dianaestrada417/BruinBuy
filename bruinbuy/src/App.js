@@ -6,7 +6,7 @@ import Home from './pages/home';
 import Chat from './pages/chatfunction/chat';
 import MarketPlace from './pages/marketplace';
 import Profile from './pages/profile';
-import Login from './pages/login';
+import Login from './pages/loginfunction/login';
 //Use these commands before doing npm start
 import SignUp from './pages/signupfunction/signup';
 //npm install react-icons --save
