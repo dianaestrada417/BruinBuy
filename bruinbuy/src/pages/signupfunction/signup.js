@@ -54,13 +54,6 @@ function SignUp() {
             password: password,
             confirmPassword: confirmPassword,
         })  
-        const newCollectionRef = collection(db, 'signups', document.id, 'items')
-        await addDoc(newCollectionRef, {
-          itemName: '',
-          itemDesc: '',
-          itemPrice: -1,
-          itemImageLinks: '',
-        })
   };
 
     return(
