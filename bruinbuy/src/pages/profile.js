@@ -1,6 +1,7 @@
 import { db } from '../firebase-config';
 import { collection, deleteDoc, doc, addDoc, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
+import { UserContext } from '../contexts/UserContext';
   
 const Profile = () => {
   const [newName, setNewName] = useState("");
@@ -14,6 +15,9 @@ const Profile = () => {
   const [users, setUsers] = useState([]);
   const [items, setItems] = useState([]);
   const usersCollectionRef = collection(db, "users");
+
+  const {User, setUser} = React.useContext(UserContext)
+  console.log(User)
 
   //we need to be able to reference the user id here
   const userID = "HA520x5tGinMehQNelgP";

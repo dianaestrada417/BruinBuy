@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import './chat.css'
 import {useState, useRef} from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
+import { UserContext } from '../../contexts/UserContext';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -20,41 +22,43 @@ firebase.initializeApp({
 })
 
 const auth = firebase.auth();
-const firestore = firebase.firestore();
+const db = firebase.firestore();
 
-function Chat() {
-  const[user] = useAuthState(auth)
-
+function Chat() {  
+  const {User, setUser} = React.useContext(UserContext)
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      setUser(loggedInUser);
+    }
+  }, []);
 
     return (
       <div className='Chat'>
     <section>
-    {user ? <ChatRoom /> : <SignIn />}
+    {User ? <ChatRoom /> : <SignIn />}
     </section>
     </div>
   );
 };
   
 function SignIn() {
-  const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
+  let navigate = useNavigate();
+  const navToLogin = () => {
+    navigate('/login')
   }
   return (
-    <button className='sign-in' onClick={signInWithGoogle}>Sign in with Google</button>
+    <button className='sign-in' onClick={navToLogin}>Login Before Using the Chat Page</button>
   )
 }
 
-function SignOut() {
-  return auth.currentUser && (
-    <button className='sign-out' onClick={() => auth.signOut()}>Sign Out</button>
-  )
-}
 
 function ChatRoom() {
   const dummy = useRef();
-  const messagesRef = firestore.collection('messages');
+  const messagesRef = db.collection('messages');
   const query = messagesRef.orderBy('createdAt').limit(25);
+  const {User, setUser} = React.useContext(UserContext)
+
 
   const[messages] = useCollectionData(query, {idField: 'id'})
 
@@ -62,7 +66,7 @@ function ChatRoom() {
 
   const sendMessage = async(e) => {
     e.preventDefault();
-    const{uid} = auth.currentUser;
+    const uid = User;
     await messagesRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -88,9 +92,10 @@ function ChatRoom() {
 }
 
 function ChatMessage(props){
+  const {User, setUser} = React.useContext(UserContext)
   const {text,uid} = props.message
 
-  const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received'
+  const messageClass = uid === User ? 'sent' : 'received'
   return(
     <>
     <div className={'message ${messageClass}'}>
