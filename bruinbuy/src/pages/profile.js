@@ -1,9 +1,10 @@
 import { db } from '../firebase-config';
-import { collection, deleteDoc, doc, addDoc, getDocs } from 'firebase/firestore';
+import { collection, deleteDoc, doc, addDoc, getDocs, query, where} from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import {getDownloadURL, ref, uploadBytes} from "firebase/storage";
+import {connectStorageEmulator, getDownloadURL, ref, uploadBytes} from "firebase/storage";
 import {storage} from "../firebase-config";
 import {v4} from "uuid";
+import { UserContext } from '../contexts/UserContext';
 
 const Profile = () => {
   const [newName, setNewName] = useState("");
@@ -13,8 +14,11 @@ const Profile = () => {
   const [newItemDesc, setNewItemDesc] = useState("");
   const [newItemPrice, setNewItemPrice] = useState(0);
   const [newItemQuantity, setNewItemQuantity] = useState(0);
-  //const [images, setImages] = useState("");
+
   const [urls, setUrls] = useState([]);
+  const [itemImageUrls, setImageUrls] = useState("");
+
+  const { User, setUser } = React.useContext(UserContext);
   
   const uploadImages = async (event) => {
     const files = event.target.files;
@@ -26,23 +30,22 @@ const Profile = () => {
 
       const url = await getDownloadURL(snapshot.ref);
       console.log(url);
-      setUrls([...urls, url]);
-      //urls.push(url);
+      setUrls(prevUrls => [...prevUrls, url]);
+      
     }
-    console.log(urls);
-    //const urlsString = urls.join(",");
   }
 
   const [users, setUsers] = useState([]);
   const [items, setItems] = useState([]);
-  const usersCollectionRef = collection(db, "users");
-
+  //const usersCollectionRef = collection(db, "signups");
+  const itemsCollectionRef = collection(db, "allItems");
+  const imagesCollectionRef = collection(db, "images");
   //we need to be able to reference the user id here
-  const userID = "HA520x5tGinMehQNelgP";
-  const usersItemCollectionRef = collection(db, "users", userID, "items");
+  //const userID = "HA520x5tGinMehQNelgP";
+  //const usersItemCollectionRef = collection(db, "users", userID, "items");
 
   
-
+  /*
   const createUser = async () => {
     const document = await addDoc(usersCollectionRef, { 
       name: newName, 
@@ -56,42 +59,7 @@ const Profile = () => {
     });
   }
 
-  const createItem = async () => {
-    //console.log(urls);
-    await addDoc(usersItemCollectionRef, {itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity) });
-    //uploadImages();
-    //here
-  }
-
-  const deleteItem = async (id) => {
-    const itemDoc = doc(db, "users", userID, "items", id);
-    await deleteDoc(itemDoc);
-  };
-
-  useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(usersCollectionRef);
-      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id})));
-    };
-
-    getUsers();
-  }, []);
-
-  useEffect(() =>{
-    const getItems = async () => {
-      const data = await getDocs(usersItemCollectionRef);
-      setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id})));
-    };
-
-    getItems();
-  }, []);
-
-  return (
-    <div>
-      <tr>
-        <td height="50"></td>
-      </tr>
-
+  
       <input 
         placeholder="Name..." 
         onChange={(event)=> {
@@ -116,6 +84,63 @@ const Profile = () => {
           </div>
         );
       })}
+
+  const joinURLString = () => {
+    const urlsString = urls.join(',');
+    console.log(urlsString);
+  }*/
+
+  const createItem = async () => {
+    //console.log("urls:", urls);
+    console.log(User);
+    const docRef = await addDoc(itemsCollectionRef, {itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), user: User});
+    
+    for(let i=0; i < urls.length; i++){
+      console.log(urls[i]);
+      await addDoc(imagesCollectionRef, {url: urls[i], item: docRef.id});
+    }
+  }
+
+  const deleteItem = async (id) => {
+    const itemDoc = doc(db, "allItems", id);
+    await deleteDoc(itemDoc);
+  };
+
+  /*
+  useEffect(() => {
+    const getUsers = async () => {
+      const data = await getDocs(usersCollectionRef);
+      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id})));
+    };
+
+    getUsers();
+  }, []);
+  */
+
+  useEffect(() =>{
+    const getItems = async () => {
+      const q = query(itemsCollectionRef, where("user", "==", User));
+      const data = await getDocs(q);
+      setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id})));
+    };
+
+    getItems();
+  }, []);
+
+  useEffect(() =>{ 
+    const loggedInUser = localStorage.getItem("user"); 
+    if (loggedInUser) {
+      const foundUser = loggedInUser; 
+      setUser(foundUser); 
+    }; 
+  }, []);
+
+
+  return (
+    <div>
+      <tr>
+        <td height="50"></td>
+      </tr>
 
       <h1>Add Items</h1>
       <input
@@ -145,7 +170,6 @@ const Profile = () => {
         }}
       />
 
-      <h1>Upload Image(s)</h1>
       <input 
         type="file" multiple
         onChange={uploadImages}
