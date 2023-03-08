@@ -1,17 +1,4 @@
-  .Chat {
-    text-align: center;
-    max-width: 728px;
-    margin: 0 auto;
-  }
-  
-  .Chat section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #ADD8E6;
-  }
-  
+
   main {
     padding: 10px;
     height: 80vh;
@@ -62,7 +49,7 @@
   }
   
   button {
-    background-color: #282c34; /* Green */
+    background-color: #282c34; 
     border: none;
     color: white;
     padding: 15px 32px;
@@ -113,3 +100,34 @@
     color: black;
   }
  
+
+  .chatroom{
+    background-color: white;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container{
+      border: 1px solid white;
+      border-radius: 10px;
+      width: 65%;
+      height: 80%;
+      display: flex;
+      overflow: hidden;
+      @include tablet {
+       width: 90%;
+      }
+  }
+
+  .sidebar{
+    width: 30%;
+    background-color: #ADD8E6;
+    position: relative;
+  }
+
+  .chatblock{
+    width: 70%;
+    background-color: #071330;
+  }

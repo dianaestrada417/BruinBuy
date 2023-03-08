@@ -6,23 +6,12 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
 import { UserContext } from '../../contexts/UserContext';
-
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { toHaveFormValues } from '@testing-library/jest-dom/dist/matchers';
+import Sidebar from './components/Sidebar'
+import ChatBlock from './components/ChatBlock'
 
-firebase.initializeApp({
-  apiKey: "AIzaSyDhgKNzRyWb5C4S-m8pzsFu1c3nLLwOchI",
-  authDomain: "bruinbuy-62dfe.firebaseapp.com",
-  projectId: "bruinbuy-62dfe",
-  storageBucket: "bruinbuy-62dfe.appspot.com",
-  messagingSenderId: "172990838331",
-  appId: "1:172990838331:web:52af9c82310d83a0450e1e",
-  measurementId: "G-77H5X4WMQ6"
-})
 
-const auth = firebase.auth();
-const db = firebase.firestore();
+
 
 function Chat() {  
   const {User, setUser} = React.useContext(UserContext)
@@ -54,7 +43,23 @@ function SignIn() {
 
 
 function ChatRoom() {
-  const dummy = useRef();
+  return (
+    <>
+    <div>
+      <tr>
+      <td height="50"></td>
+      </tr>
+    </div>
+
+    <div className='chatroom'>
+      <div className="container">
+        <Sidebar/>
+        <ChatBlock/>
+      </div>
+    </div>
+    </>
+  )}
+  /*const dummy = useRef();
   const messagesRef = db.collection('messages');
   const query = messagesRef.orderBy('createdAt').limit(25);
   const {User, setUser} = React.useContext(UserContext)
@@ -81,6 +86,7 @@ function ChatRoom() {
     <main>
       {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg}/>)}
       <span ref={dummy}></span>
+      <Sidebar/>
     </main>
 
     <form onSubmit={sendMessage}>
@@ -103,6 +109,6 @@ function ChatMessage(props){
     </div>
     </>
   )
-}
+}*/
 
 export default Chat;

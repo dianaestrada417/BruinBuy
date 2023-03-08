@@ -17,7 +17,6 @@ const Profile = () => {
   const usersCollectionRef = collection(db, "users");
 
   const {User, setUser} = React.useContext(UserContext)
-  console.log(User)
 
   //we need to be able to reference the user id here
   const userID = "HA520x5tGinMehQNelgP";
