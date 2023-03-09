@@ -123,11 +123,23 @@
 
   .sidebar{
     width: 30%;
-    background-color: #ADD8E6;
+    background-color: #152958;
     position: relative;
+    color: white;
   }
 
   .chatblock{
     width: 70%;
+    background-color: #d5dced;
+    color: #071330;
+  }
+
+  .navbar {
     background-color: #071330;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 10px;
+    justify-content: space-between;
+    color: #ADD8E6;
   }

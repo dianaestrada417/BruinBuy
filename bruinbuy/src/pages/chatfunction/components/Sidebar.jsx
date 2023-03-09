@@ -1,8 +1,13 @@
 import React from "react";
+import Navbar from './Navbar'
 
 const Sidebar = () => {
     return(
-        <div className="sidebar">SideBar
+        <div className="sidebar">
+            <Navbar>
+
+            </Navbar>
+
         </div>
     )
 }
