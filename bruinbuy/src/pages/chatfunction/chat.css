@@ -141,5 +141,90 @@
     height: 50px;
     padding: 10px;
     justify-content: space-between;
-    color: #ADD8E6;
+    color: #d5dced;
   }
+
+  .search {
+    border-bottom: 1px solid gray;
+  }
+
+  .userChat {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    cursor: pointer;
+  }
+
+  .userChat:hover{
+    background-color: #071330;
+  }
+
+  .searchInput {
+    background-color: transparent;
+    border: none;
+    color: white;
+  }
+
+  .userChatInfo span{
+      font-size: 18px;
+      font-weight: 500;
+  }
+
+  .userChatInfo p{
+    font-size: 14px;
+    color: lightgray;
+}
+
+.chatInfo {
+  height: 50px;
+  background-color: #1b3a83;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  padding: 10px;
+}
+
+.messages {
+  background-color: #071330;
+  padding: 10px;
+  height: calc(100% - 160px);
+  color: white;
+}
+
+.input {
+  height: 50px;
+  background-color: rgb(236, 234, 234);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input input {
+  width:100%;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  background-color: rgb(236, 234, 234);
+  color: #071330;
+}
+
+.send {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.send img {
+  height: 24px;
+  cursor: pointer;
+}
+
+.send button {
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+}
