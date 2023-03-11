@@ -188,10 +188,11 @@
 }
 
 .messages {
-  background-color: #071330;
+  background-color: #d5dced;
   padding: 10px;
   height: calc(100% - 160px);
   color: white;
+  overflow: scroll;
 }
 
 .input {
@@ -227,4 +228,51 @@
   border: none;
   padding: 10px 15px;
   font-size: 14px;
+  cursor: pointer;
+}
+
+.message {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.messageInfo {
+  font-weight: 300;
+  color: #152958;
+  display: flex;
+  flex-direction: column;
+}
+
+.messageContent {
+  max-width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.messageContent p {
+  background-color:#FFC000;
+  padding: 10px;
+  color: #071330;
+  border-radius: 0px 10px 10px 10px;
+  max-width: max-content;
+}
+
+.messageContent img {
+  width: 50%;
+}
+
+.message.owner {
+  flex-direction: row-reverse;
+}
+
+.message.owner .messageContent{
+  align-items: flex-end;
+}
+
+.message.owner p{
+  background-color:#071330;
+  color:#FFC000;
+  border-radius: 10px 0px 10px 10px;
 }

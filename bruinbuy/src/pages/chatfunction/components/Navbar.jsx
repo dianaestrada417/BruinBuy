@@ -3,7 +3,6 @@ import { UserContext } from '../../../contexts/UserContext';
 import {db} from '../../../firebase-config';
 import {getDoc, doc} from "firebase/firestore"; 
 
-
 const Navbar = () => {
 
     const {User, getUser} = useContext(UserContext)
@@ -20,8 +19,6 @@ const Navbar = () => {
     
         getUserName();
       }, []);
-
-   
 
     return (
       <div className='navbar'>

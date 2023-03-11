@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import React, {useState,useEffect} from 'react';
 import './signup.css'
-import { addDoc, collection } from "firebase/firestore"; 
+import { addDoc, collection, setDoc, doc } from "firebase/firestore"; 
 
 const app = firebase.initializeApp({
   apiKey: "AIzaSyDhgKNzRyWb5C4S-m8pzsFu1c3nLLwOchI",
@@ -47,13 +47,17 @@ function SignUp() {
     }
 
     const handleSubmit = async() => {
-      await addDoc(signupRef, {
+        await addDoc(signupRef, {
               firstName : firstName,
               lastName: lastName,
               email: email,
               password: password,
               confirmPassword: confirmPassword,
           })  
+          .then(async function(docRef) {
+                await setDoc(doc(db, "userChats",docRef.id), {})
+          })
+          
   };
 
     return(
