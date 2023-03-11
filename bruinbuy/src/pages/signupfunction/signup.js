@@ -50,6 +50,7 @@ function SignUp() {
         await addDoc(signupRef, {
               firstName : firstName,
               lastName: lastName,
+              fullName: firstName + ' ' + lastName,
               email: email,
               password: password,
               confirmPassword: confirmPassword,
