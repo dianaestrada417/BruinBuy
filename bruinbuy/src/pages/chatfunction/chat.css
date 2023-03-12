@@ -57,9 +57,6 @@
       height: 80%;
       display: flex;
       overflow: hidden;
-      @include tablet {
-       width: 90%;
-      }
   }
 
   .sidebar{
@@ -117,6 +114,8 @@
   .userChatInfo p{
     font-size: 14px;
     color:#d5dced;
+    display: flex;
+    justify-content: left;
 }
 
 .chatInfo {
@@ -195,7 +194,7 @@
 
 .messageContent p {
   background-color:#FFC000;
-  padding: 10px;
+  padding: 10px 20px;
   color: #071330;
   border-radius: 0px 10px 10px 10px;
   max-width: max-content;
@@ -213,7 +212,7 @@
   align-items: flex-end;
 }
 
-.message.owner p{
+.message.owner .messageContent p{
   background-color:#071330;
   color:#FFC000;
   border-radius: 10px 0px 10px 10px;

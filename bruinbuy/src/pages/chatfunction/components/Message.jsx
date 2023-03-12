@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import { UserContext } from "../../../contexts/UserContext";
+import { ChatContext } from "../../../contexts/ChatContext";
 
-const Message = () => {
+
+const Message = ({ message }) => {
+
+    const {User} = useContext(UserContext)
+    const {data} = useContext(ChatContext)
+
+    const ref = useRef();
+
+    useEffect(() => {
+        ref.current?.scrollIntoView({ behavior: "smooth" })
+    }, [message])
+
     return(
-        <div className='message owner'>
-            <div className="messageInfo">
-                <span>Emanuel</span>
-               <span>just now</span> 
-            </div>
+        <div ref={ref} className={`message ${message.senderId === User && "owner"}`}>
             <div className="messageContent">
-                <p>hello</p>
-                <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/The_University_of_California_UCLA.svg/640px-The_University_of_California_UCLA.svg.png'></img>
+                {<p>{message.text}</p>}
+                <img></img>
             </div>
         </div>
     )

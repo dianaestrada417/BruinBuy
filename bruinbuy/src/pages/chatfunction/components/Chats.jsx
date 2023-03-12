@@ -1,4 +1,4 @@
-import { doc, onSnapshot, getDoc} from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import React, {useState, useEffect, useContext } from 'react'
 import {db} from '../../../firebase-config';
 import { UserContext } from '../../../contexts/UserContext';
@@ -6,41 +6,40 @@ import { ChatContext } from '../../../contexts/ChatContext';
 
 const Chats = () => {
   const [chats, setChats] = useState([])
-  const {User, getUser} = useContext(UserContext)
-  const [chatUsername, setChatUsername] = useState('')
-  const {chatUser, setChatUser} = useContext(ChatContext)
+  const {User} = useContext(UserContext)
+  const {dispatch} = useContext(ChatContext)
 
   useEffect(() => {
-    const getUserChat = async () => {
-        const userChatRef = doc(db, "userChats", User)
-        const docSnap = await getDoc(userChatRef);
-        setChats(docSnap.data())
-        setChatUsername(docSnap.data().displayName)
-        console.log(chatUsername)
-    };
-
-    getUserChat();
-  }, []);
-
-  const handleSelect = () => {
-      const unsub = onSnapshot(doc(db, 'userChats', User), (doc) => {
-        setChatUser(doc.data().displayName)
+    const getChats = () => {
+      const unsub = onSnapshot(doc(db, "userChats", User), (doc) => {
+        setChats(doc.data())
       })
-      return unsub
+
+    return () => {
+      unsub()
+    }
   }
 
-  console.log(chatUser)
+    User && getChats()
+  }, [User]);
+
+  const handleSelect = (u) => {
+      dispatch({ type: "CHANGE_USER", payload: u })
+  }
+
 
   //onClick={() => handleSelect(chat[1].userInfo)}
-
+  //
     return (
       <div className='chats'>
-          <div className='userChat' key={chats.combineID} onClick={()=>handleSelect()} >
+        {Object.entries(chats)?.sort((a,b)=>b[1].date - a[1].date).map((chat) => (
+          <div className='userChat' key={chat[0]} onClick={()=>handleSelect(chat[1].userInfo)} >
             <div className='userChatInfo'>
-              <span>{chats.displayName}</span>
-              <p>{chats.lastMessage?.text}</p>
+              <span>{chat[1].userInfo.displayName}</span>
+              <p>{chat[1].lastMessage?.text}</p>
             </div>
           </div>
+          ))}
       </div>
     )
   }

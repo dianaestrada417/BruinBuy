@@ -1,20 +1,16 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import Messages from "./Messages";
 import Input from "./Input";
 import { ChatContext } from '../../../contexts/ChatContext';
-import {db} from '../../../firebase-config';
-import { doc, onSnapshot, collection, getDoc} from 'firebase/firestore';
 
 
 const ChatBlock = () => {
-  const {chatUser, setChatUser} = useContext(ChatContext)
-  const [chatUsername, setChatUsername] = useState(null)
-  const[chat, setChat] = useState([])
-
+  const { data } = useContext(ChatContext)
+  
   return (
     <div className="chatblock">
         <div className="chatInfo">
-              <span>{chatUser}</span>
+          <span>{data.user?.displayName}</span>
         </div>
         <Messages/>
         <Input/>

@@ -13,7 +13,6 @@ const Navbar = () => {
             const userRef = doc(db, "signups", User)
             const docSnap = await getDoc(userRef);
             setUserFullname(docSnap.data().fullName)
-            console.log(userFullname)
         };
     
         getUserName();
