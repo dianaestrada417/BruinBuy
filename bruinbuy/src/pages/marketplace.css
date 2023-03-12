@@ -2,10 +2,54 @@
     display: 'flex';
     justify-content: 'Center';
     align-items: 'Left';
-    height: '100vh';
+    font-size: 2vw !important;
 }
+
+.items{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+    margin-left: 30px;
+    margin-right: 30px;
+    max-height: 700px;
+}
+
 .item {
-    background-color: rgb(197, 146, 117);
-    margin: 20px;
+    flex-basis: calc(33.33% - 15px);
+    background-color: #ADD8E6;
+    margin-bottom: 20px;
     color : white;
-  }
+    height: 100%;
+}
+
+.item img{
+    width: auto;
+    height: 35vh;
+    flex: 50%;
+    margin-top: 15px;
+}
+
+.itemInfo{
+    flex: 50%;
+}
+
+.itemInfo h2{
+    font-size: 100%;
+}
+
+.itemInfo p{
+}
+
+@media (max-width: 768px) {
+    .item {
+      flex: 0 0 calc(50% - 10px);
+    }
+}
+
+@media (max-width: 480px) {
+.item {
+    flex: 0 0 100%;
+}
+}

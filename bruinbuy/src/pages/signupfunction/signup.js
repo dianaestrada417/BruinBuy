@@ -47,6 +47,7 @@ function SignUp() {
     }
 
     const handleSubmit = async() => {
+<<<<<<< HEAD
         await addDoc(signupRef, {
               firstName : firstName,
               lastName: lastName,
@@ -59,6 +60,15 @@ function SignUp() {
                 await setDoc(doc(db, "userChats",docRef.id), {})
           })
           
+=======
+        const document = await addDoc(signupRef, {
+            firstName : firstName,
+            lastName: lastName,
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword,
+        })  
+>>>>>>> 4608584f95f88e3b47c6ac112e1b3cab9430fd5e
   };
 
     return(

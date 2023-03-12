@@ -1,20 +1,43 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
-import {db} from '../firebase-config';
-import {collection, getDocs} from 'firebase/firestore';
+import {db, storage} from '../firebase-config';
+import { getFirestore, collection, collectionGroup, getDoc, getDocs, QuerySnapshot, query, where, get, doc, onSnapshot} from 'firebase/firestore';
 import './marketplace.css';
+import defaultPic from "./default-placeholder.png";
+import { async } from '@firebase/util';
 
 function MarketPlace() {
   const [items, setItems] = useState([]);
-  const itemsCollection = collection(db, "items");
 
   useEffect(() => {
-    const getItems = async () => {
-      const data = await getDocs(itemsCollection);
-      setItems(data.docs.map((doc) => ({...doc.data(), id: doc.id})));
-    };
-    getItems();
-  }, [])
+    const fetchItems = async () => {
+    const userItems = query(collectionGroup(db, 'allItems'), where('itemPrice', '>', 0));
+      const querySnapshot = await getDocs(userItems);
+        const data = [];
+        querySnapshot.forEach((doc) => {
+          data.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        setItems(data);
+      })
+    }
+    fetchItems();
+  }, []);
+
+  useEffect(()=> {
+    items.forEach(async (item) => {
+      const itemImages = query(collectionGroup(db, 'images'), where('item', '==', item.id));
+      const imagesSnapshot = await getDocs(itemImages);
+      const imagesData = imagesSnapshot.docs.map((doc) => doc.data().url);
+      setItems(prevItems => prevItems.map(prevItem => {
+        if(prevItem.id == item.id) {
+          return {...prevItem, images: imagesData.length ? imagesData : [defaultPic]};
+        }
+        return prevItem;
+      }));
+    });
+  }, [items]);
 
   return (
     <div>
@@ -23,9 +46,14 @@ function MarketPlace() {
       <div className="items">
         {items.map((item) => {
           return <div className="item"> 
-            <h1>{item.name}</h1> 
-            <h1>{item.description}</h1>
-            <h1>{item.price}</h1>
+            <div className='itemImage'>
+              <p>{item.images?.map((url) => <img src={url} alt="" />)}</p>
+            </div>
+            <div className='itemInfo'>
+              <h2>{item.itemName}</h2>
+              <p>{item.itemDesc}</p> 
+              <p>{item.itemPrice}</p>
+            </div>
           </div>
         })}
       </div>
