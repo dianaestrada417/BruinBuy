@@ -1,26 +1,4 @@
-
-  main {
-    padding: 10px;
-    height: 80vh;
-    margin: 10vh 0 10vh;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  main::-webkit-scrollbar {
-    width: 0.25rem;
-  }
-  
-  main::-webkit-scrollbar-track {
-    background: #071330;
-  }
-  
-  main::-webkit-scrollbar-thumb {
-    background: #FFC000;
-  }
-  
-  form {
+ form {
     height: 10vh;
     position: fixed;
     bottom: 0;
@@ -60,45 +38,8 @@
     font-size: 1.25rem;
   }
   
-  button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
   
   
-  .sign-in {
-    color: #282c34;
-    background: white;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  
-  ul, li {
-    text-align: left;
-    list-style: none;
-  }
-  
-  
-  .message {
-    display: flex;
-    align-items: center;
-  }
-  
-  
-  .sent {
-    flex-direction: row-reverse;
-  }
-  
-  .sent p {
-    color: white;
-    background: #0b93f6;
-    align-self: flex-end;
-  }
-  .received p {
-    background: #e5e5ea;
-    color: black;
-  }
  
 
   .chatroom{
@@ -170,11 +111,12 @@
   .userChatInfo span{
       font-size: 18px;
       font-weight: 500;
+      color:#d5dced;
   }
 
   .userChatInfo p{
     font-size: 14px;
-    color: lightgray;
+    color:#d5dced;
 }
 
 .chatInfo {
