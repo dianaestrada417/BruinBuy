@@ -7,6 +7,33 @@ import { UserContext } from '../../contexts/UserContext';
 import './login.css'
 
 const Login = () => {
+  const { User, setUser } = useContext(UserContext);
+  return (
+    <div>
+      <section>
+        {User ? <LoginSuccess/>: <NoLogin/>}
+      </section>
+    </div>
+  )
+}
+
+const LoginSuccess = () => {
+  return (
+    <>
+    <div>
+        <tr>
+        <td height="75"></td>
+        </tr>
+      </div>
+      
+      <div>
+        <h1>You are already logged in. Head to the Marketplace Page to view products for sale or go to the Profile Page to logout!</h1>
+      </div>
+    </>
+  )
+}
+
+const NoLogin = () => {
   const db = firebase.firestore();
   const UserRef = collection(db, "signups");
   

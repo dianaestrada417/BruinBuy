@@ -56,6 +56,12 @@ function MarketPlace() {
   }, [items]);
 
   return (
+    <>
+    <div>
+        <tr>
+        <td height="75"></td>
+        </tr>
+      </div>
     <div>
       <h1>Here are all the products for sale. Find something you like!</h1>
       
@@ -75,6 +81,7 @@ function MarketPlace() {
       </div>
 
     </div>
+    </>
   );
 };
   
