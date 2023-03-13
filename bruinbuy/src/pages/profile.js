@@ -9,20 +9,23 @@ import {v4} from "uuid";
 import { UserContext } from '../contexts/UserContext';
 
 const Profile = () => {
-  const [newName, setNewName] = useState("");
-  const [newAge, setNewAge] = useState(0);
-
   const [newItemName, setNewItemName] = useState("");
   const [newItemDesc, setNewItemDesc] = useState("");
   const [newItemPrice, setNewItemPrice] = useState(0);
   const [newItemQuantity, setNewItemQuantity] = useState(0);
 
   const [urls, setUrls] = useState([]);
-  const [itemImageUrls, setImageUrls] = useState("");
-
   const { User, setUser } = React.useContext(UserContext);
-  
+  const [isuploadImagesFinished, setIsUploadImagesFinished] = useState(false);
+  const [wasCreateItemPressed, setWasCreateItemPressed] = useState(false);
+
+  const [items, setItems] = useState([]);
+
+  const itemsCollectionRef = collection(db, "allItems");
+  const imagesCollectionRef = collection(db, "images");
+
   const uploadImages = async (event) => {
+    setIsUploadImagesFinished(false);
     const files = event.target.files;
     
     for (let i = 0; i < files.length; i++) {
@@ -35,92 +38,32 @@ const Profile = () => {
       setUrls(prevUrls => [...prevUrls, url]);
       
     }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // example async operation
+    setIsUploadImagesFinished(true);
   }
-
-  const [users, setUsers] = useState([]);
-  const [items, setItems] = useState([]);
-  const usersCollectionRef = collection(db, "users");
-
-
-  //const usersCollectionRef = collection(db, "signups");
-  const itemsCollectionRef = collection(db, "allItems");
-  const imagesCollectionRef = collection(db, "images");
-  //we need to be able to reference the user id here
-  //const userID = "HA520x5tGinMehQNelgP";
-  //const usersItemCollectionRef = collection(db, "users", userID, "items");
-
-  
-  /*
-  const createUser = async () => {
-    const document = await addDoc(usersCollectionRef, { 
-      name: newName, 
-      age: Number(newAge), 
-      isVendor: false
-    });
-
-    const newCollectionRef = collection(db, "users", document.id, "items");
-    await addDoc(newCollectionRef, {
-      data: 'user has no items'
-    });
-  }
-
-  
-      <input 
-        placeholder="Name..." 
-        onChange={(event)=> {
-          setNewName(event.target.value)
-        }} 
-      />
-      <input 
-      type="number" 
-      placeholder="Age..." 
-      onChange={(event) => {
-        setNewAge(event.target.value)
-      }} 
-      />
-      
-      <button onClick={createUser}> Create User </button>
-      {users.map((user) => {
-        return (
-          <div>
-            {" "}
-            <h1>Name: {user.name}</h1>
-            <hi>Age: {user.age}</hi>
-          </div>
-        );
-      })}
-
-  const joinURLString = () => {
-    const urlsString = urls.join(',');
-    console.log(urlsString);
-  }*/
 
   const createItem = async () => {
-    //console.log("urls:", urls);
-    console.log(User);
-    const docRef = await addDoc(itemsCollectionRef, {itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), user: User});
-    
-    for(let i=0; i < urls.length; i++){
-      console.log(urls[i]);
-      await addDoc(imagesCollectionRef, {url: urls[i], item: docRef.id});
+    setWasCreateItemPressed(true);
+    if(isuploadImagesFinished){
+      console.log(User);
+      const docRef = await addDoc(itemsCollectionRef, {itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), user: User});
+      
+      for(let i=0; i < urls.length; i++){
+        console.log(urls[i]);
+        await addDoc(imagesCollectionRef, {url: urls[i], item: docRef.id});
+      }
     }
+    else{
+      console.log("waiting for async uploadImages funct to finish...")
+    }
+    //setWasCreateItemPressed(false);
   }
 
   const deleteItem = async (id) => {
     const itemDoc = doc(db, "allItems", id);
     await deleteDoc(itemDoc);
   };
-
-  /*
-  useEffect(() => {
-    const getUsers = async () => {
-      const data = await getDocs(usersCollectionRef);
-      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id})));
-    };
-
-    getUsers();
-  }, []);
-  */
 
   useEffect(() =>{
     const getItems = async () => {
@@ -180,8 +123,10 @@ const Profile = () => {
         type="file" multiple
         onChange={uploadImages}
       />
+  
 
       <button onClick={createItem}> Add Item </button>
+      {!isuploadImagesFinished && wasCreateItemPressed && (<p>Wait for image(s) to upload!</p>)}
       {items.map((item) => {
         if(!item.data){
           return (
