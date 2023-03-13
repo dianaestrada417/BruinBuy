@@ -36,7 +36,7 @@ const Search = () => {
     const handleSelect = async() => {
         const combineId = User > messageUserId 
         ? User + messageUserId: 
-        User + messageUserId
+        messageUserId + User
         
         try {
             const res = await getDoc(doc(db, "chats", combineId))

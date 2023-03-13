@@ -89,7 +89,6 @@
   .userChat {
     padding: 10px;
     display: flex;
-    align-items: center;
     gap: 10px;
     color: white;
     cursor: pointer;
@@ -106,9 +105,10 @@
   }
 
   .userChatInfo span{
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 500;
       color:#d5dced;
+      display: flex;
   }
 
   .userChatInfo p{
