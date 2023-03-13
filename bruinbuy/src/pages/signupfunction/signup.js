@@ -2,7 +2,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import React, {useState,useEffect, useContext} from 'react';
 import './signup.css'
-import { addDoc, collection, setDoc, doc } from "firebase/firestore"; 
+import { addDoc, collection, setDoc, doc, query, where, getDoc, getDocs } from "firebase/firestore"; 
 import { UserContext } from '../../contexts/UserContext';
 
 const app = firebase.initializeApp({
@@ -17,7 +17,7 @@ const app = firebase.initializeApp({
 
 function SignUp() {
     const [signup, setSignup] = useState(null)
-    const {User} = useContext(UserContext)
+    const {User, setUser} = useContext(UserContext)
     useEffect(() => {
         const signupSuccess = localStorage.getItem('success')
         if(signupSuccess === true || User) {
@@ -25,6 +25,7 @@ function SignUp() {
         console.log(signupSuccess)
         }
     }, []);
+
     console.log(User)
     console.log(signup)
     return (
@@ -70,24 +71,31 @@ function SignUpForm() {
     }
 
     const handleSubmit = async() => {
-        if(password === confirmPassword) {
-            await addDoc(signupRef, {
-                firstName : firstName,
-                lastName: lastName,
-                fullName: firstName + ' ' + lastName,
-                email: email,
-                password: password,
-                confirmPassword: confirmPassword,
-            })  
-            .then(async function(docRef) {
-                  await setDoc(doc(db, "userChats",docRef.id), {})
-            })
-            localStorage.setItem('success', true);
-        }
-        else {
-            setErr("Passwords do not match")
-        }
-  };
+        console.log("inside")
+        const q = query(signupRef, where("email", "==", email));
+        const querySnapshot = await getDocs(q);
+        console.log(querySnapshot)
+        if(!querySnapshot.docs.length) {
+            if(password === confirmPassword) {
+                await addDoc(signupRef, {
+                    firstName : firstName,
+                    lastName: lastName,
+                    fullName: firstName + ' ' + lastName,
+                    email: email,
+                    password: password,
+                    confirmPassword: confirmPassword,
+                })  
+                .then(async function(docRef) {
+                      await setDoc(doc(db, "userChats",docRef.id), {})
+                })
+                localStorage.setItem('success', true);
+            } else {
+                setErr("Passwords do not match")
+            }
+        } else {
+            setErr("There is already an account with this email")
+        } 
+  }
 
     return(
       <>
