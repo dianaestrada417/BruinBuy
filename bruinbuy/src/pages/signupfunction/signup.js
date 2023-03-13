@@ -1,8 +1,9 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect, useContext} from 'react';
 import './signup.css'
 import { addDoc, collection, setDoc, doc } from "firebase/firestore"; 
+import { UserContext } from '../../contexts/UserContext';
 
 const app = firebase.initializeApp({
   apiKey: "AIzaSyDhgKNzRyWb5C4S-m8pzsFu1c3nLLwOchI",
@@ -14,9 +15,28 @@ const app = firebase.initializeApp({
   measurementId: "G-77H5X4WMQ6"
 })
 
-
-
 function SignUp() {
+    const [signup, setSignup] = useState(null)
+    const {User} = useContext(UserContext)
+    useEffect(() => {
+        const signupSuccess = localStorage.getItem('success')
+        if(signupSuccess === true || User) {
+          setSignup(true);
+        console.log(signupSuccess)
+        }
+    }, []);
+    console.log(User)
+    console.log(signup)
+    return (
+        <div className='Signup'>
+            <section>
+                {signup ? <PostSignUp /> : <SignUpForm />}
+            </section>
+      </div>
+    );   
+}
+
+function SignUpForm() {
   const db = firebase.firestore();
   const signupRef = collection(db, "signups");
   
@@ -26,6 +46,7 @@ function SignUp() {
     const [password,setPassword] = useState(null);
     const [confirmPassword,setConfirmPassword] = useState(null);
     const [err, setErr] = useState(null)
+    const [success, setSuccess] = useState(false)
 
     const handleInputChange = (e) => {
         setErr(null)
@@ -61,7 +82,7 @@ function SignUp() {
             .then(async function(docRef) {
                   await setDoc(doc(db, "userChats",docRef.id), {})
             })
-            setErr("A new account was created. Head to the login page to login.")
+            localStorage.setItem('success', true);
         }
         else {
             setErr("Passwords do not match")
@@ -109,4 +130,22 @@ function SignUp() {
       </> 
     )     
 }
+
+function PostSignUp() {
+    return (
+        <>
+        <div>
+            <tr>
+            <td height="75"></td>
+            </tr>
+        </div>
+            <div className='signedup'>
+                <h1> 
+                    You are signed up or already logged in. Please head to the login page to login and start using your account if you are not logged in! If you are already logged in, head to the Marketplace Page to look at items for sale!
+                </h1>
+            </div>
+        </>
+    )
+}
+
 export default SignUp;

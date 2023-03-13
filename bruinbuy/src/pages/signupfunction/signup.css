@@ -4,8 +4,6 @@
     width: 550px;
     margin: 20px auto;
     padding: 20px;
-    font-size: 18;
-    /* height: 600px; */
 }
 
 .form-body{
@@ -31,4 +29,8 @@
 
 .err{
     color: red;
+}
+
+.signedup {
+    padding: 20px;
 }
