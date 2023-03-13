@@ -141,6 +141,7 @@ const Profile = () => {
       <tr>
         <td height="50"></td>
       </tr>
+      <h1>{User}'s Profile</h1>
 
       <h1>Add Items</h1>
       <input
