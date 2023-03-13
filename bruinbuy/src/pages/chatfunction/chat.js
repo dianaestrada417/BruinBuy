@@ -18,7 +18,7 @@ function Chat() {
       setUser(loggedInUser);
     }
   }, []);
-
+  
     return (
       <div className='Chat'>
     <section>

@@ -14,7 +14,7 @@ const Input = () => {
 
     const {User} = useContext(UserContext)
     const { data } = useContext(ChatContext)
-
+    
     const handleSend = async () => {
         if(img) {
             console.log("rand")

@@ -6,7 +6,6 @@ import {db} from '../../../firebase-config';
 const Search = () => {
 
     const {User} = useContext(UserContext)
-    const [userFullname, setUserFullname] = useState('');
     const[fullname, setFullname] = useState("")
     const[messageUser, setMessageUser] = useState(null)
     const[messageUserId, setMessageUserId] = useState(null)
@@ -29,28 +28,21 @@ const Search = () => {
             }
 
     }
-    console.log(messageUserId)
 
     const handleKey = (e) => {
         e.code === "Enter" && handleSearch()
     }
 
     const handleSelect = async() => {
-        const getUserName = async () => {
-            const userRef = doc(db, "signups", User)
-            const docSnap = await getDoc(userRef);
-            setUserFullname(docSnap.data().fullName)
-        };
-        
-        getUserName();
-
         const combineId = User > messageUserId 
         ? User + messageUserId: 
-        User + messageUserId
+        messageUserId + User
         
         try {
             const res = await getDoc(doc(db, "chats", combineId))
             if(!res.exists()) {
+                const docSnap = await getDoc(doc(db, "signups", User));
+
                 await setDoc(doc(db,"chats", combineId),{messages:[]})
 
                 await updateDoc(doc(db, "userChats", User),{
@@ -64,7 +56,7 @@ const Search = () => {
                 await updateDoc(doc(db,"userChats", messageUserId),{
                     [combineId + ".userInfo"]: {
                         uid: User,
-                        displayName: userFullname
+                        displayName: docSnap.data().fullName
                       },
                       [combineId + ".date"]: serverTimestamp(),
                     });
@@ -92,5 +84,6 @@ const Search = () => {
         </div>
     )
 }
+
 
 export default Search;

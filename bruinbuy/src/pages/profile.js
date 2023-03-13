@@ -9,6 +9,7 @@ import {v4} from "uuid";
 import { UserContext } from '../contexts/UserContext';
 
 const Profile = () => {
+
   const [newItemName, setNewItemName] = useState("");
   const [newItemDesc, setNewItemDesc] = useState("");
   const [newItemPrice, setNewItemPrice] = useState(0);

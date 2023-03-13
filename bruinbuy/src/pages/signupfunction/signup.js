@@ -50,10 +50,12 @@ function SignUp() {
         const document = await addDoc(signupRef, {
             firstName : firstName,
             lastName: lastName,
+            fullName: firstName + ' ' + lastName,
             email: email,
             password: password,
             confirmPassword: confirmPassword,
         })  
+        await setDoc(doc(db, "userChats", document.id), {});
   };
 
     return(
