@@ -25,8 +25,10 @@ function SignUp() {
     const [email, setEmail] = useState(null);
     const [password,setPassword] = useState(null);
     const [confirmPassword,setConfirmPassword] = useState(null);
+    const [err, setErr] = useState(null)
 
     const handleInputChange = (e) => {
+        setErr(null)
         const {id , value} = e.target;
         if(id === "firstName"){
             setFirstName(value);
@@ -47,18 +49,23 @@ function SignUp() {
     }
 
     const handleSubmit = async() => {
-        await addDoc(signupRef, {
-              firstName : firstName,
-              lastName: lastName,
-              fullName: firstName + ' ' + lastName,
-              email: email,
-              password: password,
-              confirmPassword: confirmPassword,
-          })  
-          .then(async function(docRef) {
-                await setDoc(doc(db, "userChats",docRef.id), {})
-          })
-          
+        if(password === confirmPassword) {
+            await addDoc(signupRef, {
+                firstName : firstName,
+                lastName: lastName,
+                fullName: firstName + ' ' + lastName,
+                email: email,
+                password: password,
+                confirmPassword: confirmPassword,
+            })  
+            .then(async function(docRef) {
+                  await setDoc(doc(db, "userChats",docRef.id), {})
+            })
+            setErr("A new account was created. Head to the login page to login.")
+        }
+        else {
+            setErr("Passwords do not match")
+        }
   };
 
     return(
@@ -90,6 +97,9 @@ function SignUp() {
               <div className="confirm-password">
                   <label className="form__label" for="confirmPassword">Confirm Password </label>
                   <input className="form__input" type="password" id="confirmPassword" value={confirmPassword} onChange = {(e) => handleInputChange(e)} placeholder="Confirm Password"/>
+              </div>
+              <div>
+                <errormsg className='err'>{err}</errormsg>
               </div>
           </div>
           <div class="footer">

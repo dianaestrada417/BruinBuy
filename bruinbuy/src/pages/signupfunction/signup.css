@@ -4,6 +4,7 @@
     width: 550px;
     margin: 20px auto;
     padding: 20px;
+    font-size: 18;
     /* height: 600px; */
 }
 
@@ -26,4 +27,8 @@
 
 .footer{
     text-align: center;
+}
+
+.err{
+    color: red;
 }
