@@ -36,6 +36,7 @@ const Profile = () => {
 
   const [users, setUsers] = useState([]);
   const [items, setItems] = useState([]);
+  const usersCollectionRef = collection(db, "users");
   const itemsCollectionRef = collection(db, "allItems");
   const imagesCollectionRef = collection(db, "images");
 
@@ -118,6 +119,7 @@ const Profile = () => {
       <tr>
         <td height="75"></td>
       </tr>
+      <h1>{User}'s Profile</h1>
 
       <h1>Add Items</h1>
       <input

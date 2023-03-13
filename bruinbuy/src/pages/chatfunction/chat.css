@@ -1,39 +1,4 @@
-  .Chat {
-    text-align: center;
-    max-width: 728px;
-    margin: 0 auto;
-  }
-  
-  .Chat section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: #ADD8E6;
-  }
-  
-  main {
-    padding: 10px;
-    height: 80vh;
-    margin: 10vh 0 10vh;
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  main::-webkit-scrollbar {
-    width: 0.25rem;
-  }
-  
-  main::-webkit-scrollbar-track {
-    background: #071330;
-  }
-  
-  main::-webkit-scrollbar-thumb {
-    background: #FFC000;
-  }
-  
-  form {
+ form {
     height: 10vh;
     position: fixed;
     bottom: 0;
@@ -62,7 +27,7 @@
   }
   
   button {
-    background-color: #282c34; /* Green */
+    background-color: #282c34; 
     border: none;
     color: white;
     padding: 15px 32px;
@@ -73,43 +38,182 @@
     font-size: 1.25rem;
   }
   
-  button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
   
   
-  .sign-in {
-    color: #282c34;
-    background: white;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  
-  ul, li {
-    text-align: left;
-    list-style: none;
-  }
-  
-  
-  .message {
+ 
+
+  .chatroom{
+    background-color: white;
+    height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: center;
   }
-  
-  
-  .sent {
-    flex-direction: row-reverse;
+
+  .container{
+      border: 1px solid white;
+      border-radius: 10px;
+      width: 65%;
+      height: 80%;
+      display: flex;
+      overflow: hidden;
   }
-  
-  .sent p {
+
+  .sidebar{
+    width: 30%;
+    background-color: #152958;
+    position: relative;
     color: white;
-    background: #0b93f6;
-    align-self: flex-end;
   }
-  .received p {
-    background: #e5e5ea;
-    color: black;
+
+  .chatblock{
+    width: 70%;
+    background-color: #d5dced;
+    color: #071330;
   }
- 
+
+  .navbar {
+    background-color: #071330;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 10px;
+    justify-content: space-between;
+    color: #d5dced;
+  }
+
+  .search {
+    border-bottom: 1px solid gray;
+  }
+
+  .userChat {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    cursor: pointer;
+  }
+
+  .userChat:hover{
+    background-color: #071330;
+  }
+
+  .searchInput {
+    background-color: transparent;
+    border: none;
+    color: white;
+  }
+
+  .userChatInfo span{
+      font-size: 18px;
+      font-weight: 500;
+      color:#d5dced;
+  }
+
+  .userChatInfo p{
+    font-size: 14px;
+    color:#d5dced;
+    display: flex;
+    justify-content: left;
+}
+
+.chatInfo {
+  height: 50px;
+  background-color: #1b3a83;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: white;
+  padding: 10px;
+}
+
+.messages {
+  background-color: #d5dced;
+  padding: 10px;
+  height: calc(100% - 160px);
+  color: white;
+  overflow: scroll;
+}
+
+.input {
+  height: 50px;
+  background-color: rgb(236, 234, 234);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.input input {
+  width:100%;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  background-color: rgb(236, 234, 234);
+  color: #071330;
+}
+
+.send {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.send img {
+  height: 24px;
+  cursor: pointer;
+}
+
+.send button {
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.message {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.messageInfo {
+  font-weight: 300;
+  color: #152958;
+  display: flex;
+  flex-direction: column;
+}
+
+.messageContent {
+  max-width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.messageContent p {
+  background-color:#FFC000;
+  padding: 10px 20px;
+  color: #071330;
+  border-radius: 0px 10px 10px 10px;
+  max-width: max-content;
+}
+
+.messageContent img {
+  width: 50%;
+}
+
+.message.owner {
+  flex-direction: row-reverse;
+}
+
+.message.owner .messageContent{
+  align-items: flex-end;
+}
+
+.message.owner .messageContent p{
+  background-color:#071330;
+  color:#FFC000;
+  border-radius: 10px 0px 10px 10px;
+}

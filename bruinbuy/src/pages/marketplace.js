@@ -5,9 +5,25 @@ import { getFirestore, collection, collectionGroup, getDoc, getDocs, QuerySnapsh
 import './marketplace.css';
 import defaultPic from "./default-placeholder.png";
 import { async } from '@firebase/util';
+import { Slide } from 'react-slideshow-image';
+import 'react-slideshow-image/dist/styles.css'
 
 function MarketPlace() {
   const [items, setItems] = useState([]);
+
+  const spanStyle = {
+    padding: '20px',
+    background: '#efefef',
+    color: '#000000'
+  }
+  
+  const divStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundSize: 'cover',
+    height: '400px'
+  }
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -44,7 +60,7 @@ function MarketPlace() {
       <h1>Here are all the products for sale. Find something you like!</h1>
       
       <div className="items">
-        {items.map((item) => {
+        {items.map((item, index) => {
           return <div className="item"> 
             <div className='itemImage'>
               <p>{item.images?.map((url) => <img src={url} alt="" />)}</p>
