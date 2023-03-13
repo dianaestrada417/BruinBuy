@@ -141,7 +141,7 @@ function PostSignUp() {
         </div>
             <div className='signedup'>
                 <h1> 
-                    You are signed up or already logged in. Please head to the login page to login and start using your account if you are not logged in! If you are already logged in, head to the Marketplace Page to look at items for sale!
+                    You are signed up or already logged in. Please head to the Login Page to login and start using your account if you are not logged in! If you are already logged in, head to the Marketplace Page to look at items for sale!
                 </h1>
             </div>
         </>
