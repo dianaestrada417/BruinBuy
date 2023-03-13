@@ -22,14 +22,12 @@ const Chats = () => {
 
     User && getChats()
   }, [User]);
+  
 
   const handleSelect = (u) => {
       dispatch({ type: "CHANGE_USER", payload: u })
   }
 
-
-  //onClick={() => handleSelect(chat[1].userInfo)}
-  //
     return (
       <div className='chats'>
         {Object.entries(chats)?.sort((a,b)=>b[1].date - a[1].date).map((chat) => (

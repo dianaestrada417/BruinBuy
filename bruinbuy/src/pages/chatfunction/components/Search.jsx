@@ -29,7 +29,6 @@ const Search = () => {
             }
 
     }
-    console.log(messageUserId)
 
     const handleKey = (e) => {
         e.code === "Enter" && handleSearch()
@@ -41,8 +40,6 @@ const Search = () => {
             const docSnap = await getDoc(userRef);
             setUserFullname(docSnap.data().fullName)
         };
-        
-        getUserName();
 
         const combineId = User > messageUserId 
         ? User + messageUserId: 
@@ -51,6 +48,9 @@ const Search = () => {
         try {
             const res = await getDoc(doc(db, "chats", combineId))
             if(!res.exists()) {
+                getUserName();
+                console.log(userFullname)
+
                 await setDoc(doc(db,"chats", combineId),{messages:[]})
 
                 await updateDoc(doc(db, "userChats", User),{
@@ -61,7 +61,7 @@ const Search = () => {
                       [combineId + ".date"]: serverTimestamp(),
                     });
 
-                await updateDoc(doc(db,"userChats", messageUserId),{
+                await setDoc(doc(db,"userChats", messageUserId),{
                     [combineId + ".userInfo"]: {
                         uid: User,
                         displayName: userFullname
