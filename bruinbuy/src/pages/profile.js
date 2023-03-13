@@ -47,7 +47,7 @@ const Profile = () => {
     console.log(User);
     if (newItemName != "" || newItemDesc != "" || Number(newItemPrice) > 0 || Number(newItemQuantity) > 0 || urls.lentgth > 0) {
       const docRef = await addDoc(itemsCollectionRef, { itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), tags: tags, user: User });
-
+      console.log(tags)
       for (let i = 0; i < urls.length; i++) {
         console.log(urls[i]);
         await addDoc(imagesCollectionRef, { url: urls[i], item: docRef.id });
@@ -62,9 +62,8 @@ const Profile = () => {
 
   //Add input tags --------------------------------------------------------------------------------------------------------------------------------------------
   const [tags, setTags] = React.useState([]);
-  const listOfTags = "";
 
-  const removeTags = indexToRemove => {
+  const removeTags = (indexToRemove) => {
     setTags(tags.filter((_, index) => index != indexToRemove));
   };
   const addTags = event => {
@@ -98,12 +97,6 @@ const Profile = () => {
       const itemImages = query(collectionGroup(db, 'images'), where('item', '==', item.id));
       const imagesSnapshot = await getDocs(itemImages);
       const imagesData = imagesSnapshot.docs.map((doc) => doc.data().url);
-      if(item.tags.length > 0){
-        for(const tag in item.tags){
-          listOfTags.append(tag);
-          listOfTags.append(', ');
-        }
-      }
       setItems(prevItems => prevItems.map(prevItem => {
         if (prevItem.id == item.id) {
           return { ...prevItem, images: imagesData.length ? imagesData : [defaultPic] };
@@ -112,6 +105,7 @@ const Profile = () => {
       }));
     });
   }, [items]);
+
 
 
   return (
@@ -203,7 +197,7 @@ const Profile = () => {
                   <p>Desc: {item.itemDesc}</p>
                   <p>Quantity: {item.itemQuantity}</p>
                   <p>Price: {item.itemPrice}</p>
-                  <p>Tags: {item.tags}</p>
+                  <p>Tags: {item.tags.join(', ')}</p>
                   <button
                     onClick={() => { deleteItem(item.id) }}>
                     Delete Item
