@@ -15,7 +15,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password,setPassword] = useState("");
 
-  const { setUser } = React.useContext(UserContext);
+  const { User, setUser } = useContext(UserContext);
 
   let navigate = useNavigate();
 
@@ -42,7 +42,7 @@ const Login = () => {
       localStorage.setItem('user', doc.id);
       navigate('/profile');
     });
-    
+    console.log(User)
     //if not, send error message
     if(!querySnapshot.docs.length){
       setErrorMessage("Incorrect username or password");

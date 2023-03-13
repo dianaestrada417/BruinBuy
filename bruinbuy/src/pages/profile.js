@@ -1,6 +1,8 @@
 import { db } from '../firebase-config';
 import { collection, deleteDoc, doc, addDoc, getDocs, query, where} from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
+  
+
 import {connectStorageEmulator, getDownloadURL, ref, uploadBytes} from "firebase/storage";
 import {storage} from "../firebase-config";
 import {v4} from "uuid";
@@ -37,6 +39,9 @@ const Profile = () => {
 
   const [users, setUsers] = useState([]);
   const [items, setItems] = useState([]);
+  const usersCollectionRef = collection(db, "users");
+
+
   //const usersCollectionRef = collection(db, "signups");
   const itemsCollectionRef = collection(db, "allItems");
   const imagesCollectionRef = collection(db, "images");

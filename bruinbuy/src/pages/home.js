@@ -2,7 +2,7 @@ import React from 'react';
   
 const Home = () => {
     return (
-      <div>
+      <div classname='homepage'>
         <background 
           style={{
           display: 'flex',
@@ -55,6 +55,13 @@ const Home = () => {
                 color: '#071330',
                 justifyContent: 'center'
                 }}>
+                  To chat with a vendor about a product or ask questions, head to the Chat Page!
+              </p>
+              <p style={{
+                fontSize: 18,
+                color: '#071330',
+                justifyContent: 'center'
+                }}>
                   To login to your account, head to the Login Page!
               </p>
               <p style={{
@@ -65,12 +72,8 @@ const Home = () => {
                   To sign up for BruinBuy and become a new member, head to the Sign Up Page!
               </p>
           </textBlock>
-        </background>
-
-        
-
-        
-    </div>
+        </background> 
+      </div>
   );
 };
   
