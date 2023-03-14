@@ -4,7 +4,6 @@
     width: 550px;
     margin: 20px auto;
     padding: 20px;
-    /* height: 600px; */
 }
 
 .form-body{
@@ -26,4 +25,12 @@
 
 .footer{
     text-align: center;
+}
+
+.err{
+    color: red;
+}
+
+.signedup {
+    padding: 20px;
 }
