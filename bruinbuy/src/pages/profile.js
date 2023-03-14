@@ -1,11 +1,12 @@
 import { db, storage } from '../firebase-config';
-import { collection, collectionGroup, deleteDoc, doc, addDoc, getDocs, query, where } from 'firebase/firestore';
+import { collection, collectionGroup, deleteDoc, doc, addDoc, getDocs, query, where, getDoc, QuerySnapshot } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { connectStorageEmulator, getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import defaultPic from "./default-placeholder.png";
 import "./profile.scss";
 import { UserContext } from '../contexts/UserContext';
+import { querystring } from '@firebase/util';
 
 const Profile = () => {
   const [newItemName, setNewItemName] = useState("");
@@ -47,11 +48,11 @@ const Profile = () => {
   const createItem = async () => {
     setWasCreateItemPressed(true);
     if (isuploadImagesFinished) {
-      console.log(User);
+      // console.log(User);
       const docRef = await addDoc(itemsCollectionRef, { itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), tags: tags, user: User });
 
       for (let i = 0; i < urls.length; i++) {
-        console.log(urls[i]);
+        // console.log(urls[i]);
         await addDoc(imagesCollectionRef, { url: urls[i], item: docRef.id });
       }
     }
@@ -70,14 +71,42 @@ const Profile = () => {
   const [tags, setTags] = React.useState([]);
 
   const removeTags = (indexToRemove) => {
-    setTags(tags.filter((_, index) => index != indexToRemove));
+    setTags(tags.filter((_, index) => index !== indexToRemove));
   };
   const addTags = event => {
-    if (event.target.value != "") {
+    if (event.target.value !== "") {
       setTags([...tags, event.target.value]);
       event.target.value = "";
     }
   };
+
+
+  //Get the User's info --------------------------------------------------------------------------------------------------------------------------------------------
+  const[userFirstName, setUserFirstName] = useState("");
+
+  useEffect(() => {
+    const userDocRef = doc(db, "signups", "OII08QJnNabjTfHh9FRl");
+    
+    const fetchUserName = async () => {
+      const userDocSnap = await getDoc(userDocRef);
+      console.log(userDocSnap)
+      if (userDocSnap.exists()) {
+        const data = userDocSnap.data();
+        setUserFirstName(data.firstName);
+        console.log(userFirstName);
+      } else {
+        console.log('no data');
+      }
+    }
+    fetchUserName();
+  }, []);
+
+
+
+
+
+
+
 
   useEffect(() => {
     const getItems = async () => {
@@ -87,7 +116,7 @@ const Profile = () => {
     };
 
     getItems();
-  }, []);
+  }, );
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -95,7 +124,8 @@ const Profile = () => {
       const foundUser = loggedInUser;
       setUser(foundUser);
     };
-  }, []);
+    console.log();
+  },);
 
   useEffect(() => {
     items.forEach(async (item) => {
@@ -103,7 +133,7 @@ const Profile = () => {
       const imagesSnapshot = await getDocs(itemImages);
       const imagesData = imagesSnapshot.docs.map((doc) => doc.data().url);
       setItems(prevItems => prevItems.map(prevItem => {
-        if (prevItem.id == item.id) {
+        if (prevItem.id === item.id) {
           return { ...prevItem, images: imagesData.length ? imagesData : [defaultPic] };
         }
         return prevItem;
@@ -113,12 +143,11 @@ const Profile = () => {
 
   return (
     <div>
-      <tr>
-        <td height="75"></td>
-      </tr>
-      <h1>{User}'s Profile</h1>
+      <td height="75"></td>
 
-      <h1>Add Items</h1>
+      <h1>{userFirstName}'s Profile</h1>
+
+      <h2> Add Items </h2>
       <input
         placeholder="Item Name..."
         onChange={(event) => {
@@ -162,7 +191,7 @@ const Profile = () => {
         <input
           type="text"
           onKeyUp={event => event.key === "Enter" ? addTags(event) : null}
-          placeholder="Press enter to add tags"
+          placeholder="Press enter to add tags..."
           onChange={(event) => {
             setTags(tags)
           }}
@@ -179,11 +208,12 @@ const Profile = () => {
       <tr>
         <td height="10"></td>
       </tr>
-      <button onClick={createItem}> Add Item </button>
+      <button onClick={createItem}> Double Click to Add Item </button>
       <tr>
         <td height="10"></td>
       </tr>
 
+      <h2> {'\u2193'} Items in your maketplace {'\u2193'} </h2>
       {!isuploadImagesFinished && wasCreateItemPressed && (<p>Wait for image(s) to upload!</p>)}
 
       <div className="items">
@@ -210,6 +240,8 @@ const Profile = () => {
                 </div>
               </div>
             );
+          } else {
+            return null;
           }
         })}
       </div>
