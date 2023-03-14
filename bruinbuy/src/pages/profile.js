@@ -3,23 +3,29 @@ import { collection, collectionGroup, deleteDoc, doc, addDoc, getDocs, query, wh
 import React, { useEffect, useState } from 'react';
 import { connectStorageEmulator, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
-import { UserContext } from '../contexts/UserContext';
 import defaultPic from "./default-placeholder.png";
 import "./profile.scss";
+import { UserContext } from '../contexts/UserContext';
 
 const Profile = () => {
-
   const [newItemName, setNewItemName] = useState("");
   const [newItemDesc, setNewItemDesc] = useState("");
   const [newItemPrice, setNewItemPrice] = useState(0);
   const [newItemQuantity, setNewItemQuantity] = useState(-1);
 
   const [urls, setUrls] = useState([]);
-  const [itemImageUrls, setImageUrls] = useState("");
-
   const { User, setUser } = React.useContext(UserContext);
 
+  const [isuploadImagesFinished, setIsUploadImagesFinished] = useState(false);
+  const [wasCreateItemPressed, setWasCreateItemPressed] = useState(false);
+
+  const [items, setItems] = useState([]);
+
+  const itemsCollectionRef = collection(db, "allItems");
+  const imagesCollectionRef = collection(db, "images");
+
   const uploadImages = async (event) => {
+    setIsUploadImagesFinished(false);
     const files = event.target.files;
 
     for (let i = 0; i < files.length; i++) {
@@ -32,20 +38,16 @@ const Profile = () => {
       setUrls(prevUrls => [...prevUrls, url]);
 
     }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // example async operation
+    setIsUploadImagesFinished(true);
   }
-
-  const [users, setUsers] = useState([]);
-  const [items, setItems] = useState([]);
-  const usersCollectionRef = collection(db, "users");
-  const itemsCollectionRef = collection(db, "allItems");
-  const imagesCollectionRef = collection(db, "images");
-
 
   //Create an Item --------------------------------------------------------------------------------------------------------------------------------------------
   const createItem = async () => {
-    console.log("urls:", urls);
-    console.log(User);
-    if (newItemName != "" || newItemDesc != "" || Number(newItemPrice) > 0 || Number(newItemQuantity) > 0 || urls.lentgth > 0) {
+    setWasCreateItemPressed(true);
+    if (isuploadImagesFinished) {
+      console.log(User);
       const docRef = await addDoc(itemsCollectionRef, { itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), tags: tags, user: User });
 
       for (let i = 0; i < urls.length; i++) {
@@ -53,6 +55,10 @@ const Profile = () => {
         await addDoc(imagesCollectionRef, { url: urls[i], item: docRef.id });
       }
     }
+    else {
+      console.log("waiting for async uploadImages funct to finish...")
+    }
+    //setWasCreateItemPressed(false);
   }
 
   const deleteItem = async (id) => {
@@ -62,18 +68,16 @@ const Profile = () => {
 
   //Add input tags --------------------------------------------------------------------------------------------------------------------------------------------
   const [tags, setTags] = React.useState([]);
-  const listOfTags = "";
 
-  const removeTags = indexToRemove => {
+  const removeTags = (indexToRemove) => {
     setTags(tags.filter((_, index) => index != indexToRemove));
   };
   const addTags = event => {
-    if(event.target.value != "") {
-      setTags ([...tags, event.target.value]);
+    if (event.target.value != "") {
+      setTags([...tags, event.target.value]);
       event.target.value = "";
     }
   };
-
 
   useEffect(() => {
     const getItems = async () => {
@@ -98,12 +102,6 @@ const Profile = () => {
       const itemImages = query(collectionGroup(db, 'images'), where('item', '==', item.id));
       const imagesSnapshot = await getDocs(itemImages);
       const imagesData = imagesSnapshot.docs.map((doc) => doc.data().url);
-      if(item.tags.length > 0){
-        for(const tag in item.tags){
-          listOfTags.append(tag);
-          listOfTags.append(', ');
-        }
-      }
       setItems(prevItems => prevItems.map(prevItem => {
         if (prevItem.id == item.id) {
           return { ...prevItem, images: imagesData.length ? imagesData : [defaultPic] };
@@ -112,7 +110,6 @@ const Profile = () => {
       }));
     });
   }, [items]);
-
 
   return (
     <div>
@@ -128,14 +125,12 @@ const Profile = () => {
           setNewItemName(event.target.value)
         }}
       />
-
       <input
         placeholder="Item Description..."
         onChange={(event) => {
           setNewItemDesc(event.target.value)
         }}
       />
-
       <input
         type="number"
         placeholder="Item Price..."
@@ -143,7 +138,6 @@ const Profile = () => {
           setNewItemPrice(event.target.value)
         }}
       />
-
       <input
         type="number"
         placeholder="Quantity..."
@@ -151,7 +145,7 @@ const Profile = () => {
           setNewItemQuantity(event.target.value)
         }}
       />
-      
+
       <div className="tags-input">
         <ul id="tags">
           {tags.map((tag, index) => (
@@ -174,11 +168,14 @@ const Profile = () => {
           }}
         />
       </div>
-      
+
+
       <input
         type="file" multiple
         onChange={uploadImages}
       />
+
+
       <tr>
         <td height="10"></td>
       </tr>
@@ -187,33 +184,33 @@ const Profile = () => {
         <td height="10"></td>
       </tr>
 
+      {!isuploadImagesFinished && wasCreateItemPressed && (<p>Wait for image(s) to upload!</p>)}
+
       <div className="items">
         {items.map((item) => {
           if (!item.data) {
-            
             return (
               <div className="item">
-
                 <div className='itemImage'>
                   <p>{item.images?.map((url) => <img src={url} alt="" />)}</p>
                 </div>
-
                 <div className='itemInfo'>
                   <h1>Name: {item.itemName}</h1>
                   <p>Desc: {item.itemDesc}</p>
                   <p>Quantity: {item.itemQuantity}</p>
                   <p>Price: {item.itemPrice}</p>
-                  <p>Tags: {item.tags}</p>
+                  <p>Tags: {item.tags.join(', ')}</p>
                   <button
-                    onClick={() => { deleteItem(item.id) }}>
+                    onClick={() => {
+                      deleteItem(item.id)
+                    }}
+                  >
                     Delete Item
                   </button>
                 </div>
               </div>
-
             );
           }
-
         })}
       </div>
     </div>

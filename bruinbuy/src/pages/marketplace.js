@@ -95,6 +95,12 @@ function MarketPlace() {
   }
 
   return (
+    <>
+    <div>
+        <tr>
+        <td height="75"></td>
+        </tr>
+      </div>
     <div>
       <h1 className='h1'>Marketplace</h1>
       
@@ -131,6 +137,7 @@ function MarketPlace() {
       </div>
 
     </div>
+    </>
   );
 };
   
