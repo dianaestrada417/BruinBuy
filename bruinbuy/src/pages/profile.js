@@ -11,10 +11,11 @@ const Profile = () => {
   const [newItemName, setNewItemName] = useState("");
   const [newItemDesc, setNewItemDesc] = useState("");
   const [newItemPrice, setNewItemPrice] = useState(0);
-  const [newItemQuantity, setNewItemQuantity] = useState(0);
+  const [newItemQuantity, setNewItemQuantity] = useState(-1);
 
   const [urls, setUrls] = useState([]);
   const { User, setUser } = React.useContext(UserContext);
+
   const [isuploadImagesFinished, setIsUploadImagesFinished] = useState(false);
   const [wasCreateItemPressed, setWasCreateItemPressed] = useState(false);
 
@@ -42,11 +43,12 @@ const Profile = () => {
     setIsUploadImagesFinished(true);
   }
 
+  //Create an Item --------------------------------------------------------------------------------------------------------------------------------------------
   const createItem = async () => {
     setWasCreateItemPressed(true);
     if (isuploadImagesFinished) {
       console.log(User);
-      const docRef = await addDoc(itemsCollectionRef, { itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), user: User });
+      const docRef = await addDoc(itemsCollectionRef, { itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), tags: tags, user: User });
 
       for (let i = 0; i < urls.length; i++) {
         console.log(urls[i]);
@@ -64,16 +66,6 @@ const Profile = () => {
     await deleteDoc(itemDoc);
   };
 
-  useEffect(() => {
-    const getItems = async () => {
-      const q = query(itemsCollectionRef, where("user", "==", User));
-      const data = await getDocs(q);
-      setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-
-    getItems();
-  }, []);
-
   //Add input tags --------------------------------------------------------------------------------------------------------------------------------------------
   const [tags, setTags] = React.useState([]);
 
@@ -88,6 +80,24 @@ const Profile = () => {
   };
 
   useEffect(() => {
+    const getItems = async () => {
+      const q = query(itemsCollectionRef, where("user", "==", User));
+      const data = await getDocs(q);
+      setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+
+    getItems();
+  }, []);
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = loggedInUser;
+      setUser(foundUser);
+    };
+  }, []);
+
+  useEffect(() => {
     items.forEach(async (item) => {
       const itemImages = query(collectionGroup(db, 'images'), where('item', '==', item.id));
       const imagesSnapshot = await getDocs(itemImages);
@@ -100,16 +110,6 @@ const Profile = () => {
       }));
     });
   }, [items]);
-
-
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      const foundUser = loggedInUser;
-      setUser(foundUser);
-    };
-  }, []);
-
 
   return (
     <div>
@@ -199,7 +199,7 @@ const Profile = () => {
                   <p>Desc: {item.itemDesc}</p>
                   <p>Quantity: {item.itemQuantity}</p>
                   <p>Price: {item.itemPrice}</p>
-                  <p>Tags: {item.tags}</p>
+                  <p>Tags: {item.tags.join(', ')}</p>
                   <button
                     onClick={() => {
                       deleteItem(item.id)
