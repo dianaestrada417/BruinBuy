@@ -1,11 +1,11 @@
-import { db, storage } from '../firebase-config';
+import { db, storage } from '../../firebase-config';
 import { collection, collectionGroup, deleteDoc, doc, addDoc, getDocs, query, where } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { connectStorageEmulator, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
-import defaultPic from "./default-placeholder.png";
+import defaultPic from "./../default-placeholder.png";
 import "./profile.scss";
-import { UserContext } from '../contexts/UserContext';
+import { UserContext } from '../../contexts/UserContext';
 
 const Profile = () => {
   const [newItemName, setNewItemName] = useState("");
