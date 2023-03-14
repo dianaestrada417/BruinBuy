@@ -10,6 +10,11 @@ import 'react-slideshow-image/dist/styles.css'
 
 function MarketPlace() {
   const [items, setItems] = useState([]);
+  const [searchState, setSearchState] = useState();
+  const [errorMessage, setErrorMessage] = useState('');
+  const [itemResults, setItemResults] = useState();
+
+  const allItemsRef = collection(db, "allItems");
 
   const spanStyle = {
     padding: '20px',
@@ -55,10 +60,61 @@ function MarketPlace() {
     });
   }, [items]);
 
+  const handleInputChange = (e) => {
+    const {id , value} = e.target;
+    setSearchState(value)
+  }
+
+  const handleSubmit = async() => {
+    setErrorMessage('');
+    //create search for item names query
+    const nameq = query(allItemsRef, 
+      where("itemName", ">=", searchState), 
+      where("itemName", "<=", searchState+ '\uf8ff'));
+    const nameQuerySnapshot = await getDocs(collectionGroup(db, 'allItems'))
+    
+    //if there is match, update global variable
+    const data = [];
+    nameQuerySnapshot.forEach((doc) => {
+      console.log(doc.data().tags)
+      if(doc.data().itemName.includes(searchState) || doc.data().itemDesc.includes(searchState) || (doc.data().tags && doc.data().tags.includes(searchState))){
+        data.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      }
+    })
+    console.log(data)
+    setItems(data)
+  
+
+    //if not, send error message
+    if(!data.length){
+      setErrorMessage("No results!");
+    }
+  }
+
   return (
     <div>
-      <h1>Here are all the products for sale. Find something you like!</h1>
+      <h1 className='h1'>Marketplace</h1>
       
+      <div className='search-container'>
+        <input className='search-bar' 
+                type="text" 
+                value={searchState} 
+                onChange = {(e) => handleInputChange(e)} 
+                id="search" 
+                placeholder="Search for items..."/>
+        <button className='search-button' 
+                onClick={()=>handleSubmit()} 
+                type="submit" 
+                class="btn">
+                  Search
+                </button>
+      </div>
+
+      <h1> {errorMessage} </h1>
+
       <div className="items">
         {items.map((item, index) => {
           return <div className="item"> 

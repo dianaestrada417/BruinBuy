@@ -3,6 +3,8 @@
     justify-content: 'Center';
     align-items: 'Left';
     font-size: 2vw !important;
+    padding-top: 100px;
+    margin-top: 0;
 }
 
 .items{
@@ -40,6 +42,27 @@
 }
 
 .itemInfo p{
+}
+
+.search-container {
+    margin-left: 10%;
+    margin-right: 10%;
+    display: flex;
+    flex-direction: row;
+    padding: 25px;
+}
+
+.search-bar {
+    background-color: lightgray;
+    color:#071330
+}
+
+.search-button {
+    background-color: rgb(169, 180, 200);
+}
+
+.search-button:hover {
+    background-color: #071330;
 }
 
 @media (max-width: 768px) {
