@@ -71,18 +71,6 @@ function SignUpForm() {
     }
 
     const handleSubmit = async() => {
-<<<<<<< HEAD
-        const document = await addDoc(signupRef, {
-            firstName : firstName,
-            lastName: lastName,
-            fullName: firstName + ' ' + lastName,
-            email: email,
-            password: password,
-            confirmPassword: confirmPassword,
-        })  
-        await setDoc(doc(db, "userChats", document.id), {});
-  };
-=======
         console.log("inside")
         const q = query(signupRef, where("email", "==", email));
         const querySnapshot = await getDocs(q);
@@ -108,7 +96,6 @@ function SignUpForm() {
             setErr("There is already an account with this email")
         } 
   }
->>>>>>> signupedits
 
     return(
       <>
