@@ -12,7 +12,7 @@ function MarketPlace() {
   const [items, setItems] = useState([]);
   const [searchState, setSearchState] = useState();
   const [errorMessage, setErrorMessage] = useState('');
-  const [totalItemsNum, setTotalItemsNum] = useState(0);
+  const [totalItems, setTotalItems] = useState('');
   const [sortOpen, setSortOpen] = useState(false);
   const [sortOption, setSortOption] = useState("Sort");
   const allItemsRef = collection(db, "allItems");
@@ -59,7 +59,9 @@ function MarketPlace() {
         return prevItem;
       }));
     });
-    setTotalItemsNum(items.length)
+    if(items.length == 1){setTotalItems('1 result')}
+    else {setTotalItems(items.length + ' results')}
+    
   }, [items]);
 
   const handleInputChange = (e) => {
@@ -111,9 +113,11 @@ function MarketPlace() {
 
   const parseDate = (item) => {
 var diff = parseInt(((Date.now()/1000)-item.time.seconds), 10);
-    if(diff < 86400){
-      return parseInt(diff % (3600*24) / 3600) + " hours"
-    } else if (diff == 1) {return diff + " day"}
+    if(diff < 86400){ 
+      var hours = parseInt(diff % (3600*24) / 3600)
+      if(hours == 1) {return hours + " hour"}
+      else {return hours + " hours"}
+    } else if (86400 < diff < 172800) {return "1 day"}
     else return parseInt(diff / (3600*24)) +  " days"
   }
 
@@ -142,7 +146,7 @@ var diff = parseInt(((Date.now()/1000)-item.time.seconds), 10);
       </div>
       <hr className='divider'></hr>
       <div className='results-bar'>
-        <p className='results-display'> {totalItemsNum} results </p>
+        <p className='results-display'> {totalItems} </p>
         <div className='dropdown-menu'>
           {sortOpen ? (
             <div>
