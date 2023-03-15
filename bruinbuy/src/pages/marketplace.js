@@ -15,7 +15,6 @@ function MarketPlace() {
   const [totalItemsNum, setTotalItemsNum] = useState(0);
   const [sortOpen, setSortOpen] = useState(false);
   const [sortOption, setSortOption] = useState("Sort");
-
   const allItemsRef = collection(db, "allItems");
 
   const spanStyle = {
@@ -100,25 +99,24 @@ function MarketPlace() {
     setSortOpen(false)
     if(value == 'Price ↑'){
       items.sort((a, b) => a.itemPrice - b.itemPrice).reverse()
-      for(var i = 0; i < items.length; i++){
-        console.log(items[i].itemPrice)
-      }
     }
     if(value == 'Price ↓'){
       items.sort((a, b) => a.itemPrice - b.itemPrice)
-      for(var i = 0; i < items.length; i++){
-        console.log(items[i].itemPrice)
-      }
     }
     if(value == 'Oldest'){
       items.sort((a, b) => a.time - b.time)
-      for(var i = 0; i < items.length; i++){
-        console.log(items[i].time)
-      }
     }
     if(value == 'Newest'){
       items.sort((a, b) => a.time - b.time).reverse()
     }
+  }
+
+  const parseDate = (item) => {
+var diff = parseInt(((Date.now()/1000)-item.time.seconds), 10);
+    if(diff < 86400){
+      return parseInt(diff % (3600*24) / 3600) + " hours"
+    } else if (diff == 1) {return diff + " day"}
+    else return parseInt(diff / (3600*24)) +  " days"
   }
 
   return (
@@ -183,6 +181,7 @@ function MarketPlace() {
               <h2>{item.itemName}</h2>
               <p>{item.itemDesc}</p> 
               <p>{item.itemPrice}</p>
+              <p>{parseDate(item)} ago</p>
             </div>
           </div>
         })}
