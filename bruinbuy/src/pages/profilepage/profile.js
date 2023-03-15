@@ -1,7 +1,7 @@
 //https://www.youtube.com/watch?v=iAytfevXk_s
 
 import { db, storage } from '../../firebase-config';
-import { collection, collectionGroup, deleteDoc, doc, addDoc, getDocs, query, where, getDoc } from 'firebase/firestore';
+import { collection, collectionGroup, deleteDoc, doc, addDoc, getDocs, query, where, getDoc, Timestamp } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
@@ -66,8 +66,7 @@ const Profile = () => {
   const createItem = async () => {
     setWasCreateItemPressed(true);
     if (isuploadImagesFinished) {
-      // console.log(User);
-      const docRef = await addDoc(itemsCollectionRef, { itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), tags: tags, user: User });
+      const docRef = await addDoc(itemsCollectionRef, { itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), tags: tags, user: User, time: Timestamp.now()});
 
       for (let i = 0; i < urls.length; i++) {
         // console.log(urls[i]);

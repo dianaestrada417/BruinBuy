@@ -3,6 +3,8 @@
     justify-content: 'Center';
     align-items: 'Left';
     font-size: 2vw !important;
+    padding-top: 100px;
+    margin-top: 0;
 }
 
 .items{
@@ -40,6 +42,93 @@
 }
 
 .itemInfo p{
+}
+
+.search-container {
+    margin: 1em 10% -30px;
+    display: flex;
+    flex-direction: row;
+    padding: 25px;
+}
+
+.search-bar {
+    background-color: lightgray;
+    color:#071330;
+}
+
+.search-button {
+    background-color: #071330;
+}
+
+.search-button:hover {
+    background-color: rgb(169, 180, 200);
+}
+
+.divider {
+    margin: 30px 70px 10px
+}
+
+.results-bar {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 100px
+}
+
+.results-display {
+    max-width: fit-content;
+}
+
+.sort-button {
+    flex: none;
+    align-self: center;
+    height: 35px;
+    width: fit-content;
+    padding: 10px;
+    line-height: 10px;
+
+    background-color: white;
+    border-radius: 45px;
+    border-style: solid;
+    border-color: #071330;
+    border-width: thin;
+
+    color:#071330;
+    text-align: center;
+    font-size: 10;
+}
+
+.sort-button:hover {
+    background-color: #071330;
+    color: white;
+}
+
+.sort-options:hover {
+    background-color: #071330;
+    color: white;
+}
+
+.dropdown-menu {
+    display: flex;
+    align-self: center;
+    justify-content: space-evenly;
+}
+
+.sort-options {
+    flex: none;
+    height: 35px;
+    width: fit-content;
+    padding: 10px;
+    line-height: 10px;
+
+    background-color: white;
+    border-radius: 45px;
+    border-style: solid;
+    border-color: #071330;
+    border-width: thin;
+
+    color:#071330;
+    text-align: center;
+    font-size: 10;
 }
 
 @media (max-width: 768px) {
