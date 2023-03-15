@@ -59,6 +59,7 @@ function MarketPlace() {
         return prevItem;
       }));
     });
+    setTotalItemsNum(items.length)
   }, [items]);
 
   const handleInputChange = (e) => {
@@ -75,7 +76,6 @@ function MarketPlace() {
     //check to see if there is match in itemDesc, itemName, and tags
     const data = [];
     querySnapshot.forEach((doc) => {
-      console.log(doc.data().tags)
       if(doc.data().itemName.includes(searchState) || doc.data().itemDesc.includes(searchState) || (doc.data().tags && doc.data().tags.includes(searchState))){
         data.push({
           id: doc.id,
@@ -83,8 +83,6 @@ function MarketPlace() {
         });
       }
     })
-    console.log(data)
-    setTotalItemsNum(data.length)
     setItems(data)
   
 
