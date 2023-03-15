@@ -22,8 +22,16 @@
     background: #071330;
     color: #FFC000;
     outline: none;
-    border: none;
-    padding: 0 10px;
+    border: 2px solid #ccc; /* Border color and size */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px; /* Space between text and border */
+    width: 800px; /* Width of the container */
+    align-items: center;
+    display: flex;
+    /* use flexbox to align the content */
+    justify-content: center;
+    /* horizontally center the content */
+    margin: 0 auto;
   }
   
   button {
@@ -152,6 +160,8 @@
   font-size: 18px;
   background-color: rgb(236, 234, 234);
   color: #071330;
+  flex-wrap: wrap;
+  word-wrap: break-word;
 }
 
 .send {
@@ -198,6 +208,8 @@
   color: #071330;
   border-radius: 0px 10px 10px 10px;
   max-width: max-content;
+  word-wrap: break-word;
+  text-align: left;
 }
 
 .messageContent img {

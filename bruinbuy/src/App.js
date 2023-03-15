@@ -2,12 +2,12 @@ import './App.css';
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/home';
-import Chat from './pages/chatfunction/chat';
-import MarketPlace from './pages/marketplace';
-import Profile from './pages/profile';
-import Login from './pages/loginfunction/login';
-import SignUp from './pages/signupfunction/signup';
+import Home from './pages/homepage/home';
+import Chat from './pages/chatpage/chat';
+import MarketPlace from './pages/marketplacepage/marketplace';
+import Profile from './pages/profilepage/profile';
+import Login from './pages/loginpage/login';
+import SignUp from './pages/signuppage/signup';
 import { UserContext } from './contexts/UserContext'
 import ChatContextProvider from './contexts/ChatContext'
 //Use these commands before doing npm start
@@ -25,6 +25,7 @@ function App() {
           <Router>
             <Navbar> </Navbar>
             <Routes>
+            <Route path='' exact element={<Home/>}></Route>
             <Route path='/home' exact element={<Home/>}></Route>
             <Route path='/marketplace' element={<MarketPlace/>}></Route>
             <Route path='/chat' element={<Chat/>}></Route>
