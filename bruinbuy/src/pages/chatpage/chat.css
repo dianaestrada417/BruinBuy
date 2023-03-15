@@ -152,6 +152,8 @@
   font-size: 18px;
   background-color: rgb(236, 234, 234);
   color: #071330;
+  flex-wrap: wrap;
+  word-wrap: break-word;
 }
 
 .send {
@@ -198,6 +200,8 @@
   color: #071330;
   border-radius: 0px 10px 10px 10px;
   max-width: max-content;
+  word-wrap: break-word;
+  text-align: left;
 }
 
 .messageContent img {
