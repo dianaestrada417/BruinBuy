@@ -1,12 +1,13 @@
-import { db, storage } from '../firebase-config';
-import { collection, collectionGroup, deleteDoc, doc, addDoc, getDocs, query, where, getDoc, QuerySnapshot } from 'firebase/firestore';
+//https://www.youtube.com/watch?v=iAytfevXk_s
+
+import { db, storage } from '../../firebase-config';
+import { collection, collectionGroup, deleteDoc, doc, addDoc, getDocs, query, where, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
-import defaultPic from "./default-placeholder.png";
+import defaultPic from "../default-placeholder.png";
 import "./profile.scss";
-import { UserContext } from '../contexts/UserContext';
-import { querystring } from '@firebase/util';
+import { UserContext } from '../../contexts/UserContext';
 
 const Profile = () => {
   const [newItemName, setNewItemName] = useState("");
@@ -38,11 +39,28 @@ const Profile = () => {
       console.log(url);
       setUrls(prevUrls => [...prevUrls, url]);
 
+      event.target.files = null;
+      setEvents([...events, event]);
+
     }
 
     await new Promise((resolve) => setTimeout(resolve, 1000)); // example async operation
     setIsUploadImagesFinished(true);
   }
+
+
+  const [events, setEvents] = useState([]);
+
+  const clearInput = rawr => {
+    console.log(events);
+    for (let i = 0; i < events.length; i++) {
+      if (events[i].target.value !== "") {
+        events[i].target.value = "";
+      }
+    }
+    setTags([]);
+    setUrls([]);
+  };
 
   //Create an Item --------------------------------------------------------------------------------------------------------------------------------------------
   const createItem = async () => {
@@ -54,6 +72,7 @@ const Profile = () => {
       for (let i = 0; i < urls.length; i++) {
         // console.log(urls[i]);
         await addDoc(imagesCollectionRef, { url: urls[i], item: docRef.id });
+        clearInput(events);
       }
     }
     else {
@@ -66,6 +85,28 @@ const Profile = () => {
     const itemDoc = doc(db, "allItems", id);
     await deleteDoc(itemDoc);
   };
+
+  const handleNameInputChange = event => {
+    setNewItemName(event.target.value);
+    setEvents([...events, event]);
+
+  };
+
+  const handleDescInputChange = event => {
+    setNewItemDesc(event.target.value);
+    setEvents([...events, event]);
+  };
+
+  const handlePriceInputChange = event => {
+    setNewItemPrice(event.target.value);
+    setEvents([...events, event]);
+  };
+
+  const handleQuantityInputChange = event => {
+    setNewItemQuantity(event.target.value);
+    setEvents([...events, event]);
+  };
+
 
   //Add input tags --------------------------------------------------------------------------------------------------------------------------------------------
   const [tags, setTags] = React.useState([]);
@@ -81,12 +122,13 @@ const Profile = () => {
   };
 
 
+
   //Get the User's info --------------------------------------------------------------------------------------------------------------------------------------------
-  const[userFirstName, setUserFirstName] = useState("");
+  const [userFirstName, setUserFirstName] = useState("");
 
   useEffect(() => {
     const userDocRef = doc(db, "signups", "OII08QJnNabjTfHh9FRl");
-    
+
     const fetchUserName = async () => {
       const userDocSnap = await getDoc(userDocRef);
       console.log(userDocSnap)
@@ -116,7 +158,7 @@ const Profile = () => {
     };
 
     getItems();
-  }, );
+  },[items]);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -125,7 +167,7 @@ const Profile = () => {
       setUser(foundUser);
     };
     console.log();
-  },);
+  });
 
   useEffect(() => {
     items.forEach(async (item) => {
@@ -151,27 +193,27 @@ const Profile = () => {
       <input
         placeholder="Item Name..."
         onChange={(event) => {
-          setNewItemName(event.target.value)
+          handleNameInputChange(event)
         }}
       />
       <input
         placeholder="Item Description..."
         onChange={(event) => {
-          setNewItemDesc(event.target.value)
+          handleDescInputChange(event)
         }}
       />
       <input
         type="number"
         placeholder="Item Price..."
         onChange={(event) => {
-          setNewItemPrice(event.target.value)
+          handlePriceInputChange(event)
         }}
       />
       <input
         type="number"
         placeholder="Quantity..."
         onChange={(event) => {
-          setNewItemQuantity(event.target.value)
+          handleQuantityInputChange(event)
         }}
       />
 
@@ -198,12 +240,10 @@ const Profile = () => {
         />
       </div>
 
-
       <input
         type="file" multiple
         onChange={uploadImages}
       />
-
 
       <tr>
         <td height="10"></td>

@@ -1,9 +1,9 @@
 import React from 'react';
 import {useState, useEffect} from 'react';
-import {db, storage} from '../firebase-config';
+import {db, storage} from '../../firebase-config';
 import { getFirestore, collection, collectionGroup, getDoc, getDocs, QuerySnapshot, query, where, get, doc, onSnapshot} from 'firebase/firestore';
 import './marketplace.css';
-import defaultPic from "./default-placeholder.png";
+import defaultPic from "./../default-placeholder.png";
 import { async } from '@firebase/util';
 import { Slide } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css'
