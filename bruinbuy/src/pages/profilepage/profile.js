@@ -127,7 +127,7 @@ const Profile = () => {
   const [userFirstName, setUserFirstName] = useState("");
 
   useEffect(() => {
-    const userDocRef = doc(db, "signups", "OII08QJnNabjTfHh9FRl");
+    const userDocRef = doc(db, "signups", User);
 
     const fetchUserName = async () => {
       const userDocSnap = await getDoc(userDocRef);

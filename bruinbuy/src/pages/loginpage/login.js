@@ -26,7 +26,7 @@ const LoginSuccess = () => {
         </tr>
       </div>
       
-      <div>
+      <div className='loginsuccess'>
         <h1>You are already logged in. Head to the Marketplace Page to view products for sale or go to the Profile Page to logout!</h1>
       </div>
     </>
@@ -76,12 +76,12 @@ const NoLogin = () => {
     }
   }
 
-  useEffect(() => {
+  /*useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       setUser(loggedInUser);
     }
-  }, []);
+  }, []);*/
 
   return (
       <>
@@ -95,7 +95,7 @@ const NoLogin = () => {
           <div className="form-body">
               <div className="email">
                   <label className="form__label" for="email">Email </label>
-                  <input  type="email" id="email" className="form__input" value={email} onChange = {(e) => handleInputChange(e)} placeholder="Email"/>
+                  <input  type="email" id="email" className="form__input2" value={email} onChange = {(e) => handleInputChange(e)} placeholder="Email"/>
               </div>
               <div className="password">
                   <label className="form__label" for="password">Password </label>

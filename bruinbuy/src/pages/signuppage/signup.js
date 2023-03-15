@@ -18,13 +18,13 @@ const app = firebase.initializeApp({
 function SignUp() {
     const [signup, setSignup] = useState(null)
     const {User, setUser} = useContext(UserContext)
-    useEffect(() => {
+    /*useEffect(() => {
         const signupSuccess = localStorage.getItem('success')
         if(signupSuccess === true || User) {
           setSignup(true);
         console.log(signupSuccess)
         }
-    }, []);
+    }, []);*/
 
     console.log(User)
     console.log(signup)
