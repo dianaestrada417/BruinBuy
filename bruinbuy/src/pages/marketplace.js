@@ -1,5 +1,5 @@
 import React from 'react';
-import {useState, useEffect} from 'react';
+import {useState, useEffect, document} from 'react';
 import {db, storage} from '../firebase-config';
 import { getFirestore, collection, collectionGroup, getDoc, getDocs, QuerySnapshot, query, where, get, doc, onSnapshot} from 'firebase/firestore';
 import './marketplace.css';
@@ -12,7 +12,9 @@ function MarketPlace() {
   const [items, setItems] = useState([]);
   const [searchState, setSearchState] = useState();
   const [errorMessage, setErrorMessage] = useState('');
-  const [itemResults, setItemResults] = useState();
+  const [totalItemsNum, setTotalItemsNum] = useState(0);
+  const [sortOpen, setSortOpen] = useState(false);
+  const [sortOption, setSortOption] = useState("Sort");
 
   const allItemsRef = collection(db, "allItems");
 
@@ -67,15 +69,13 @@ function MarketPlace() {
 
   const handleSubmit = async() => {
     setErrorMessage('');
-    //create search for item names query
-    const nameq = query(allItemsRef, 
-      where("itemName", ">=", searchState), 
-      where("itemName", "<=", searchState+ '\uf8ff'));
-    const nameQuerySnapshot = await getDocs(collectionGroup(db, 'allItems'))
+
+    //pull every item in the allItems collection
+    const querySnapshot = await getDocs(collectionGroup(db, 'allItems'))
     
-    //if there is match, update global variable
+    //check to see if there is match in itemDesc, itemName, and tags
     const data = [];
-    nameQuerySnapshot.forEach((doc) => {
+    querySnapshot.forEach((doc) => {
       console.log(doc.data().tags)
       if(doc.data().itemName.includes(searchState) || doc.data().itemDesc.includes(searchState) || (doc.data().tags && doc.data().tags.includes(searchState))){
         data.push({
@@ -85,12 +85,39 @@ function MarketPlace() {
       }
     })
     console.log(data)
+    setTotalItemsNum(data.length)
     setItems(data)
   
 
     //if not, send error message
     if(!data.length){
       setErrorMessage("No results!");
+    }
+  }
+
+  const handleSort = async(value) => {
+    setSortOption(value)
+    setSortOpen(false)
+    if(value == 'Price ↑'){
+      items.sort((a, b) => a.itemPrice - b.itemPrice).reverse()
+      for(var i = 0; i < items.length; i++){
+        console.log(items[i].itemPrice)
+      }
+    }
+    if(value == 'Price ↓'){
+      items.sort((a, b) => a.itemPrice - b.itemPrice)
+      for(var i = 0; i < items.length; i++){
+        console.log(items[i].itemPrice)
+      }
+    }
+    if(value == 'Oldest'){
+      items.sort((a, b) => a.time - b.time)
+      for(var i = 0; i < items.length; i++){
+        console.log(items[i].time)
+      }
+    }
+    if(value == 'Newest'){
+      items.sort((a, b) => a.time - b.time).reverse()
     }
   }
 
@@ -102,7 +129,7 @@ function MarketPlace() {
         </tr>
       </div>
     <div>
-      <h1 className='h1'>Marketplace</h1>
+      <h1>Marketplace</h1>
       
       <div className='search-container'>
         <input className='search-bar' 
@@ -113,13 +140,38 @@ function MarketPlace() {
                 placeholder="Search for items..."/>
         <button className='search-button' 
                 onClick={()=>handleSubmit()} 
-                type="submit" 
-                class="btn">
+                type="submit">
                   Search
                 </button>
       </div>
-
-      <h1> {errorMessage} </h1>
+      <hr className='divider'></hr>
+      <div className='results-bar'>
+        <p className='results-display'> {totalItemsNum} results </p>
+        <div className='dropdown-menu'>
+          {sortOpen ? (
+            <div>
+              <button className='sort-options' 
+              value="Price ↑"
+              onClick={e => handleSort(e.target.value)}>
+                Price ↑</button>
+              <button className='sort-options' 
+              value="Price ↓"
+              onClick={e => handleSort(e.target.value)}>
+                Price ↓</button> 
+              <button className='sort-options' 
+              value="Oldest"
+              onClick={e => handleSort(e.target.value)}>
+                Oldest</button> 
+              <button className='sort-options' 
+              value="Newest"
+              onClick={e => handleSort(e.target.value)}>
+                Newest</button> 
+            </div>
+          ) : null}
+          <button className='sort-button' onClick={() => setSortOpen(!sortOpen)}>{sortOption}</button>
+          </div>
+      </div>
+      <h2> {errorMessage} </h2>
 
       <div className="items">
         {items.map((item, index) => {
