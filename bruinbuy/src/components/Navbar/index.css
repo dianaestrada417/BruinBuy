@@ -1,4 +1,11 @@
-.Navbar-logo{
-    display: flex;
-    align-items: left;
+@media screen and (max-width: 900px) {
+  .navigation-menu.expanded {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .navigation-menu {
+    display: none;
+  }
 }

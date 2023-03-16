@@ -77,3 +77,23 @@
         width: calc(100vw - 32px);
     }
 }
+
+
+.itemForm input {
+    line-height: 1.5;
+    width: 100%;
+    font-size: 1.5rem;
+    background: #071330;
+    color: #FFC000;
+    outline: none;
+    border: 2px solid #ccc; /* Border color and size */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px; /* Space between text and border */
+    width: 800px; /* Width of the container */
+    align-items: center;
+    display: flex;
+    /* use flexbox to align the content */
+    justify-content: center;
+    /* horizontally center the content */
+    margin: auto;
+  }

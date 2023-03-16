@@ -1,13 +1,13 @@
-import React, {useState, useContext, useId, useEffect} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import 'firebase/compat/firestore';
 import firebase from 'firebase/compat/app';
-import { query, where, collection, getDocs, FieldPath, FieldValue } from "firebase/firestore"; 
+import { query, where, collection, getDocs } from "firebase/firestore"; 
 import { UserContext } from '../../contexts/UserContext';
 import './login.css'
 
 const Login = () => {
-  const { User, setUser } = useContext(UserContext);
+  const User = useContext(UserContext);
   return (
     <div>
       <section>
@@ -26,7 +26,7 @@ const LoginSuccess = () => {
         </tr>
       </div>
       
-      <div>
+      <div className='loginsuccess'>
         <h1>You are already logged in. Head to the Marketplace Page to view products for sale or go to the Profile Page to logout!</h1>
       </div>
     </>
@@ -81,7 +81,7 @@ const NoLogin = () => {
     if (loggedInUser) {
       setUser(loggedInUser);
     }
-  }, []);
+  }, [setUser]);
 
   return (
       <>
@@ -95,7 +95,7 @@ const NoLogin = () => {
           <div className="form-body">
               <div className="email">
                   <label className="form__label" for="email">Email </label>
-                  <input  type="email" id="email" className="form__input" value={email} onChange = {(e) => handleInputChange(e)} placeholder="Email"/>
+                  <input  type="email" id="email" className="form__input2" value={email} onChange = {(e) => handleInputChange(e)} placeholder="Email"/>
               </div>
               <div className="password">
                   <label className="form__label" for="password">Password </label>
