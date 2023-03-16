@@ -1,10 +1,10 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import 'firebase/compat/firestore';
-import firebase from 'firebase/compat/app';
 import { query, where, collection, getDocs } from "firebase/firestore"; 
 import { UserContext } from '../../contexts/UserContext';
 import './login.css'
+import {db} from '../../firebase-config';
 
 const Login = () => {
   const User = useContext(UserContext);
@@ -18,6 +18,11 @@ const Login = () => {
 }
 
 const LoginSuccess = () => {
+  let navigate = useNavigate();
+  const navToMarketPlace = () => {
+    navigate('/marketplace') }
+  const navToProfile = () => {
+    navigate('/profile') }
   return (
     <>
     <div>
@@ -27,14 +32,18 @@ const LoginSuccess = () => {
       </div>
       
       <div className='loginsuccess'>
-        <h1>You are already logged in. Head to the Marketplace Page to view products for sale or go to the Profile Page to logout!</h1>
+        <h1>You are already logged in. Head to the 
+          <button className='marketplace' onClick={navToMarketPlace}>MarketPlace Page</button>
+          to view products for sale or go to the
+          <button className='profile' onClick={navToProfile}>Profile Page</button>
+          to logout!
+        </h1>
       </div>
     </>
   )
 }
 
 const NoLogin = () => {
-  const db = firebase.firestore();
   const UserRef = collection(db, "signups");
   
   const [errorMessage, setErrorMessage] = useState("");

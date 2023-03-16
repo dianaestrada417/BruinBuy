@@ -10,7 +10,6 @@ import './index.css'
 
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false)
-  console.log(isNavExpanded)
     return (
       <>
         <Nav>

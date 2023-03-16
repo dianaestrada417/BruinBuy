@@ -97,3 +97,33 @@
     /* horizontally center the content */
     margin: auto;
   }
+
+  button.login {
+    background-color: transparent;
+    color: black;
+    padding:0.5%;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+button.login:hover {
+    background-color: transparent;
+    color: #FFC000;
+    padding:0.5%;
+    font-weight: bold;
+}
+
+button.signup {
+    background-color: transparent;
+    color: black;
+    padding:0.5%;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+button.signup:hover {
+    background-color: transparent;
+    color: #FFC000;
+    padding:0.5%;
+    font-weight: bold;
+}

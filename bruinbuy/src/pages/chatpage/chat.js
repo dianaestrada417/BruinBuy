@@ -34,7 +34,21 @@ function SignIn() {
     navigate('/login')
   }
   return (
-    <button className='sign-in' onClick={navToLogin}>Login Before Using the Chat Page</button>
+    <>
+    <div>
+      <tr>
+      <td height="75"></td>
+      </tr>
+    </div>
+
+    <div className='signin'>
+      <h1>
+        Go to the
+        <button className='sign-in' onClick={navToLogin}>Login Page</button>
+        before using the Chat!
+      </h1>
+    </div>
+    </>
   )
 }
 
@@ -44,7 +58,7 @@ function ChatRoom() {
     <>
     <div>
       <tr>
-      <td height="50"></td>
+      <td height="75"></td>
       </tr>
     </div>
 
