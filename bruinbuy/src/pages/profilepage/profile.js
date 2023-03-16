@@ -189,6 +189,7 @@ const Profile = () => {
       <h1>{userFirstName}'s Profile</h1>
 
       <h2> Add Items </h2>
+      <div className='itemForm'>
       <input
         placeholder="Item Name..."
         onChange={(event) => {
@@ -215,6 +216,7 @@ const Profile = () => {
           handleQuantityInputChange(event)
         }}
       />
+      </div>
 
       <div className="tags-input">
         <ul id="tags">
@@ -238,11 +240,13 @@ const Profile = () => {
           }}
         />
       </div>
-
-      <input
-        type="file" multiple
-        onChange={uploadImages}
-      />
+      <div className='itemForm'>
+        <input
+          type="file" multiple
+          onChange={uploadImages}
+        />
+      </div>
+      
 
       <tr>
         <td height="10"></td>

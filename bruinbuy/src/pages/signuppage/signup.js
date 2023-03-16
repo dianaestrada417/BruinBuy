@@ -18,13 +18,13 @@ const app = firebase.initializeApp({
 function SignUp() {
     const [signup, setSignup] = useState(null)
     const {User, setUser} = useContext(UserContext)
-    /*useEffect(() => {
+    useEffect(() => {
         const signupSuccess = localStorage.getItem('success')
         if(signupSuccess === true || User) {
           setSignup(true);
         console.log(signupSuccess)
         }
-    }, []);*/
+    }, []);
 
     console.log(User)
     console.log(signup)
@@ -113,7 +113,7 @@ function SignUpForm() {
               </div>
               <div className="lastname">
                   <label className="form__label" for="lastName">Last Name </label>
-                  <input  type="text" name="" id="lastName" value={lastName}  className="form__input" onChange = {(e) => handleInputChange(e)} placeholder="LastName"/>
+                  <input  type="text" name="" id="lastName" value={lastName}  className="form__input" onChange = {(e) => handleInputChange(e)} placeholder="Last Name"/>
               </div>
               <div className="email">
                   <label className="form__label" for="email">Email </label>

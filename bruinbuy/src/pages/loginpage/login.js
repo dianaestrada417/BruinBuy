@@ -76,12 +76,12 @@ const NoLogin = () => {
     }
   }
 
-  /*useEffect(() => {
+  useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       setUser(loggedInUser);
     }
-  }, []);*/
+  }, []);
 
   return (
       <>

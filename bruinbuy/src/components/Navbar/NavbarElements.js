@@ -12,6 +12,7 @@ export const Nav = styled.nav`
   align-items: center;
   right: 0;
   left: 0;
+  text-align: right;
 `;
   
 export const NavLink = styled(Link)`
@@ -30,63 +31,53 @@ export const NavLink = styled(Link)`
   &.active {
     color: #FFC000;
   }
+  @media screen and (max-width: 900px) {
+    color: #071330;
+    width: 100%;
+    font-size: 1.3rem;
+  }
 `;
   
 export const Bars = styled(FaBars)`
   display: none;
   color: #FFFF00;
-  @media screen and (max-width: 768px) {
-    display: block;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translate(-100%, 75%);
-    font-size: 1.8rem;
+  @media screen and (max-width: 900px) {
+    height: 30px;
+    width: 30px;
+    padding: 0.5rem;
     cursor: pointer;
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translateY(-50%);
+    display: block;
+    &:hover {
+      color: #ADD8E6
+    }
   }
 `;
   
 export const NavMenu = styled.div`
 display: flex;
-align-items: center;
-margin-right: -24px;
-/* Second Nav */
-/* margin-right: 24px; */
-/* Third Nav */
-/* width: 100vw;
-white-space: nowrap; */
-@media screen and (max-width: 768px) {
-  display: none;
-}
-`;
-  
-export const NavBtn = styled.nav`
-  display: flex;
   align-items: center;
-  margin-right: 24px;
-  /* Third Nav */
-  /* justify-content: flex-end;
-  width: 100vw; */
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
-`;
-  
-export const NavBtnLink = styled(Link)`
-  border-radius: 4px;
-  background: #FFC000;
-  padding: 10px 22px;
-  color: #0F52BA;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
+  margin-right: -24px;
   /* Second Nav */
-  margin-left: 24px;
-  &:hover {
-    transition: all 0.2s ease-in-out;
-    background: #ADD8E6;
-    color: #0F52BA;
+  /* margin-right: 24px; */
+  /* Third Nav */
+  /* width: 100vw;
+  white-space: nowrap; */
+  @media screen and (max-width: 900px) {
+    position: absolute;
+    top: 83px;
+    left: 0;
+    flex-direction: column;
+    width: 100%;
+    height: calc(100vh - 77px);
+    background-color: white;
+    border-top: 1px solid black;
   }
 `;
+
+
+
+  
