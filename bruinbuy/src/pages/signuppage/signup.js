@@ -4,6 +4,7 @@ import React, {useState,useEffect, useContext} from 'react';
 import './signup.css'
 import { addDoc, collection, setDoc, doc, query, where, getDocs } from "firebase/firestore"; 
 import { UserContext } from '../../contexts/UserContext';
+import {db, storage} from '../../firebase-config';
 
 function SignUp() {
     const [signup, setSignup] = useState(null)
@@ -28,7 +29,6 @@ function SignUp() {
 }
 
 function SignUpForm() {
-  const db = firebase.firestore();
   const signupRef = collection(db, "signups");
   
     const [firstName, setFirstName] = useState(null);
