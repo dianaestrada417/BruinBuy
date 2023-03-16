@@ -41,9 +41,6 @@
     font-size: 100%;
 }
 
-.itemInfo p{
-}
-
 .search-container {
     margin: 1em 10% -30px;
     display: flex;
@@ -129,6 +126,18 @@
     color:#071330;
     text-align: center;
     font-size: 10;
+}
+
+.itemImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 500px;
+    max-height: 500px;
+}
+
+.slick-prev:before, .slick-next:before{
+    color:#071330;
 }
 
 @media (max-width: 768px) {

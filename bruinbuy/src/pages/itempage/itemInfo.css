@@ -1,0 +1,9 @@
+.item_Info{
+    margin-left: 100px;
+    margin-right: 100px;
+    max-width: 500px;
+}
+
+.slick-prev:before, .slick-next:before{
+    color:#071330;
+}
