@@ -33,6 +33,11 @@
     /* horizontally center the content */
     margin: 0 auto;
   }
+
+  .file-input::placeholder {
+    color: gray;
+    font-size: 14px;
+  }
   
   button {
     background-color: #282c34; 

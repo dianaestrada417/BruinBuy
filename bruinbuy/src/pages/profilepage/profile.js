@@ -126,7 +126,7 @@ const Profile = () => {
   const [userFirstName, setUserFirstName] = useState("");
 
   useEffect(() => {
-    const userDocRef = doc(db, "signups", "OII08QJnNabjTfHh9FRl");
+    const userDocRef = doc(db, "signups", User);
 
     const fetchUserName = async () => {
       const userDocSnap = await getDoc(userDocRef);
@@ -159,14 +159,14 @@ const Profile = () => {
     getItems();
   },[items]);
 
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      const foundUser = loggedInUser;
-      setUser(foundUser);
-    };
-    console.log();
-  });
+  // useEffect(() => {
+  //   const loggedInUser = localStorage.getItem("user");
+  //   if (loggedInUser) {
+  //     const foundUser = loggedInUser;
+  //     setUser(foundUser);
+  //   };
+  //   console.log();
+  // });
 
   useEffect(() => {
     items.forEach(async (item) => {
@@ -232,7 +232,7 @@ const Profile = () => {
         <input
           type="text"
           onKeyUp={event => event.key === "Enter" ? addTags(event) : null}
-          placeholder="Press enter to add tags..."
+          placeholder="Type and press enter to add a tag..."
           onChange={(event) => {
             setTags(tags)
           }}
@@ -241,8 +241,18 @@ const Profile = () => {
 
       <input
         type="file" multiple
+        placeholder="Select file"
         onChange={uploadImages}
       />
+
+      <p style={{ marginLeft: "25vw", 
+                  textAlign: "left", 
+                  paddingTop: "0", 
+                  marginTop: "0" 
+                  }}>
+                    Note: All input is required
+                    </p>
+
 
       <tr>
         <td height="10"></td>
