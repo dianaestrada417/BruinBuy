@@ -3,14 +3,12 @@ import {
   Nav,
   NavLink,
   Bars,
-  NavMenu,
-  NavMenuOpen,
-  NavMenuClosed
+  NavMenu
 } from './NavbarElements';
 import myLogo from './bruinBuyLogoWhite.png';
 import './index.css'
 
-const Navbar = () => {const [navbarOpen, setNavbarOpen] = useState(false);
+const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false)
   console.log(isNavExpanded)
     return (

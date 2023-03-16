@@ -2,29 +2,19 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import React, {useState,useEffect, useContext} from 'react';
 import './signup.css'
-import { addDoc, collection, setDoc, doc, query, where, getDoc, getDocs } from "firebase/firestore"; 
+import { addDoc, collection, setDoc, doc, query, where, getDocs } from "firebase/firestore"; 
 import { UserContext } from '../../contexts/UserContext';
-
-const app = firebase.initializeApp({
-  apiKey: "AIzaSyDhgKNzRyWb5C4S-m8pzsFu1c3nLLwOchI",
-  authDomain: "bruinbuy-62dfe.firebaseapp.com",
-  projectId: "bruinbuy-62dfe",
-  storageBucket: "bruinbuy-62dfe.appspot.com",
-  messagingSenderId: "172990838331",
-  appId: "1:172990838331:web:52af9c82310d83a0450e1e",
-  measurementId: "G-77H5X4WMQ6"
-})
 
 function SignUp() {
     const [signup, setSignup] = useState(null)
-    const {User, setUser} = useContext(UserContext)
+    const User = useContext(UserContext)
     useEffect(() => {
         const signupSuccess = localStorage.getItem('success')
         if(signupSuccess === true || User) {
           setSignup(true);
         console.log(signupSuccess)
         }
-    }, []);
+    }, [User]);
 
     console.log(User)
     console.log(signup)
@@ -47,7 +37,6 @@ function SignUpForm() {
     const [password,setPassword] = useState(null);
     const [confirmPassword,setConfirmPassword] = useState(null);
     const [err, setErr] = useState(null)
-    const [success, setSuccess] = useState(false)
 
     const handleInputChange = (e) => {
         setErr(null)

@@ -1,13 +1,13 @@
-import React, {useState, useContext, useId, useEffect} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import { useNavigate } from "react-router-dom";
 import 'firebase/compat/firestore';
 import firebase from 'firebase/compat/app';
-import { query, where, collection, getDocs, FieldPath, FieldValue } from "firebase/firestore"; 
+import { query, where, collection, getDocs } from "firebase/firestore"; 
 import { UserContext } from '../../contexts/UserContext';
 import './login.css'
 
 const Login = () => {
-  const { User, setUser } = useContext(UserContext);
+  const User = useContext(UserContext);
   return (
     <div>
       <section>
@@ -81,7 +81,7 @@ const NoLogin = () => {
     if (loggedInUser) {
       setUser(loggedInUser);
     }
-  }, []);
+  }, [setUser]);
 
   return (
       <>

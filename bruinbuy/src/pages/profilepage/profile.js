@@ -2,21 +2,57 @@
 
 import { db, storage } from '../../firebase-config';
 import { collection, collectionGroup, deleteDoc, doc, addDoc, getDocs, query, where, getDoc, Timestamp } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 } from "uuid";
 import defaultPic from "../default-placeholder.png";
 import "./profile.scss";
 import { UserContext } from '../../contexts/UserContext';
 
-const Profile = () => {
+function Profile(){
+  const { User, setUser } = useContext(UserContext);
+  const [ isLoggedIn, setIsLoggedIn] = useState(null);
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = loggedInUser;
+      setUser(foundUser);
+      setIsLoggedIn(true);
+    };
+  }, [setUser]);
+
+  return (
+    <div >
+      <tr>
+        <td height="75"></td>
+      </tr>
+      <section>
+        {isLoggedIn ? <LoggedInProfile user={User}/> : <NotLoggedInProfile />}
+      </section>
+    </div>
+  );
+}
+
+function NotLoggedInProfile() {
+  return (
+    <>
+      <div >
+        <td height="20"></td>
+        <h1>
+          Head to the Login or Sign Up page to access your account.
+        </h1>
+      </div>
+    </>
+  )
+}
+
+function LoggedInProfile (props) {
   const [newItemName, setNewItemName] = useState("");
   const [newItemDesc, setNewItemDesc] = useState("");
   const [newItemPrice, setNewItemPrice] = useState(0);
   const [newItemQuantity, setNewItemQuantity] = useState(-1);
 
   const [urls, setUrls] = useState([]);
-  const { User, setUser } = React.useContext(UserContext);
 
   const [isuploadImagesFinished, setIsUploadImagesFinished] = useState(false);
   const [wasCreateItemPressed, setWasCreateItemPressed] = useState(false);
@@ -25,11 +61,12 @@ const Profile = () => {
 
   const itemsCollectionRef = collection(db, "allItems");
   const imagesCollectionRef = collection(db, "images");
+  const [imagesUploaded, setImagesUploaded] = useState(0);
 
   const uploadImages = async (event) => {
     setIsUploadImagesFinished(false);
     const files = event.target.files;
-
+    setImagesUploaded(imagesUploaded + 1);
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const storageRef = ref(storage, `images/${file.name + v4()}`);
@@ -64,18 +101,21 @@ const Profile = () => {
 
   //Create an Item --------------------------------------------------------------------------------------------------------------------------------------------
   const createItem = async () => {
-    setWasCreateItemPressed(true);
-    if (isuploadImagesFinished) {
-      const docRef = await addDoc(itemsCollectionRef, { itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), tags: tags, user: User, time: Timestamp.now()});
+    if (newItemName !== '' && newItemDesc !== '' && newItemPrice > -1 && newItemQuantity > 0 && tags.length > 0 && imagesUploaded > 0) {
+      setWasCreateItemPressed(true);
+      setImagesUploaded(0);
+      if (isuploadImagesFinished ) {
+        const docRef = await addDoc(itemsCollectionRef, { itemName: newItemName, itemDesc: newItemDesc, itemPrice: Number(newItemPrice), itemQuantity: Number(newItemQuantity), tags: tags, user: props.user, time: Timestamp.now()});
 
-      for (let i = 0; i < urls.length; i++) {
-        // console.log(urls[i]);
-        await addDoc(imagesCollectionRef, { url: urls[i], item: docRef.id });
-        clearInput(events);
+        for (let i = 0; i < urls.length; i++) {
+          // console.log(urls[i]);
+          await addDoc(imagesCollectionRef, { url: urls[i], item: docRef.id });
+          clearInput(events);
+        }
       }
-    }
-    else {
-      console.log("waiting for async uploadImages funct to finish...")
+      else {
+        console.log("waiting for async uploadImages funct to finish...")
+      }
     }
     //setWasCreateItemPressed(false);
   }
@@ -126,7 +166,7 @@ const Profile = () => {
   const [userFirstName, setUserFirstName] = useState("");
 
   useEffect(() => {
-    const userDocRef = doc(db, "signups", User);
+    const userDocRef = doc(db, "signups", props.user);
 
     const fetchUserName = async () => {
       const userDocSnap = await getDoc(userDocRef);
@@ -140,7 +180,7 @@ const Profile = () => {
       }
     }
     fetchUserName();
-  }, []);
+  }, [props.user, userFirstName]);
 
 
 
@@ -151,22 +191,13 @@ const Profile = () => {
 
   useEffect(() => {
     const getItems = async () => {
-      const q = query(itemsCollectionRef, where("user", "==", User));
+      const q = query(itemsCollectionRef, where("user", "==", props.user));
       const data = await getDocs(q);
       setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
 
     getItems();
-  },[items]);
-
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      const foundUser = loggedInUser;
-      setUser(foundUser);
-    };
-    console.log();
-  });
+  },[props.user, itemsCollectionRef]);
 
   useEffect(() => {
     items.forEach(async (item) => {
@@ -184,8 +215,6 @@ const Profile = () => {
 
   return (
     <div>
-      <td height="75"></td>
-
       <h1>{userFirstName}'s Profile</h1>
 
       <h2> Add Items </h2>
