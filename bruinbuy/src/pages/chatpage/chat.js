@@ -1,3 +1,5 @@
+//Chat page helped by:  https://www.youtube.com/watch?v=k4mjF4sPITE 
+
 import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import './chat.css'

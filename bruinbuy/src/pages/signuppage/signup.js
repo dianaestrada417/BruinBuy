@@ -1,3 +1,5 @@
+//Sign Up code helped by: https://www.section.io/engineering-education/registration-form-react.js-firebase/ 
+
 import 'firebase/compat/firestore';
 import React, {useState,useEffect, useContext} from 'react';
 import { useNavigate } from "react-router-dom";
