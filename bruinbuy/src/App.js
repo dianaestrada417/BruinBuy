@@ -34,7 +34,7 @@ function App() {
             <Route path='/profile' element={<Profile/>}></Route>
             <Route path='/signup' element={<SignUp/>}></Route>
             <Route path='/login' element={<Login/>}></Route>
-            <Route path='/item/:itemId' element={<ItemInfoPage/>} />
+            <Route path='/item/:itemId/:agoString' element={<ItemInfoPage/>} />
             </Routes>
           </Router>
         </ChatContextProvider>
