@@ -6,13 +6,15 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {db} from '../../firebase-config';
 import './itemInfo.css';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 function ItemInfoPage(props){
-    const {itemId} = useParams();
+    const {itemId, agoString} = useParams();
     const location = useLocation();
     const images = location.state ? location.state.images : null;
     const [item, setItem] = useState(null);
-    const [sellerFullName, setSellerFullName] = useState("");
+    const [sellerFullName, setSellerFullName] = useState("hiiii");
 
     useEffect(() => {
       const getItemData = async () =>{
@@ -50,15 +52,21 @@ function ItemInfoPage(props){
         slidesToScroll: 1
       };
 
+
     return(
-        <div className="page">
+        <div className='item_page'>
+          <div>
+            <tr>
+              <td height="75"></td>
+            </tr>
+          </div>
             <h1>Item Info Page</h1>
             <div className='itemContainer'>
               <div className="item_Left">
                   {images ? (
                       <Slider {...settings}>
                           {images.map((url) => (
-                          <div className="itemImage" key={url}>
+                          <div className="item_Image" key={url}>
                               <img src={url} alt="" />
                           </div>
                           ))}
@@ -75,17 +83,20 @@ function ItemInfoPage(props){
               
               <div className="item_Right">
                 <div className="item_Info">
-                    <h2>{item.itemName}</h2>
+                    <h2>{item.itemName}</h2>    
+                    <p style={{fontWeight: 'bolder'}}>${item.itemPrice}</p>
                     <p>{item.itemDesc}</p>
-                    <p>{item.itemPrice}</p>
-                    <p>{item.userFullName}</p>
+                    <Link to={`/chat?seller=${sellerFullName}`} className='link-button'>Chat with Seller: {sellerFullName}</Link>
+                    
+                    <div className='info_bottom'>
+                      <p style={{color: 'red'}}>Only {item.itemQuantity} left!</p>
+                      <p>Posted {agoString}</p>                      
+                    </div>
+
                 </div>
 
 
-                <div className='chatWith'>
-                    <p>Chat with Seller</p>
-                    <p>Ask {sellerFullName}</p>
-                </div>
+
               </div>
             </div>
         </div>

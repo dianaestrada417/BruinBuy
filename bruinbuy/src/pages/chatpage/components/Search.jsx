@@ -2,6 +2,8 @@ import React, { useContext, useState } from 'react'
 import { collection, query, where, getDocs, doc, setDoc, updateDoc, serverTimestamp, getDoc} from "firebase/firestore"
 import { UserContext } from '../../../contexts/UserContext';
 import {db} from '../../../firebase-config';
+import { useLocation } from 'react-router';
+import { useEffect } from 'react';
 
 const Search = () => {
 
@@ -10,7 +12,16 @@ const Search = () => {
     const[messageUser, setMessageUser] = useState(null)
     const[messageUserId, setMessageUserId] = useState(null)
     const[err, setErr] = useState(false)
+    const location = useLocation();
+    const sellerNameReceived = new URLSearchParams(location.search).get('seller');
 
+    useEffect(() => {
+        if (sellerNameReceived) {
+          setFullname(sellerNameReceived);
+        }
+    }, [sellerNameReceived]);
+
+      
     const handleSearch = async() => {
         const q = query(
             collection(db, 'signups'), 
