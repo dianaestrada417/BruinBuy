@@ -26,7 +26,9 @@ function MarketPlace() {
 
   const handleItemClick = (item) => {
     const images = item.images;
-    nav(`/item/${item.id}`, {state: {images}});
+    const agoString = `${parseDate(item)} ago`;
+
+    nav(`/item/${item.id}/${agoString}`, {state: {images}});
     setSelectedItem(item.id);
   }
 
