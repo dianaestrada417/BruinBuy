@@ -1,17 +1,19 @@
-import firebase from 'firebase/compat/app';
+//Sign Up code helped by: https://www.section.io/engineering-education/registration-form-react.js-firebase/ 
+
 import 'firebase/compat/firestore';
 import React, {useState,useEffect, useContext} from 'react';
+import { useNavigate } from "react-router-dom";
 import './signup.css'
 import { addDoc, collection, setDoc, doc, query, where, getDocs } from "firebase/firestore"; 
 import { UserContext } from '../../contexts/UserContext';
-import {db, storage} from '../../firebase-config';
+import {db} from '../../firebase-config';
 
 function SignUp() {
     const [signup, setSignup] = useState(null)
     const User = useContext(UserContext)
     useEffect(() => {
         const signupSuccess = localStorage.getItem('success')
-        if(signupSuccess === true || User) {
+        if(signupSuccess === true || User !== null) {
           setSignup(true);
         console.log(signupSuccess)
         }
@@ -129,6 +131,11 @@ function SignUpForm() {
 }
 
 function PostSignUp() {
+    let navigate = useNavigate();
+    const navToMarketPlace = () => {
+        navigate('/marketplace') }
+    const navToLogin = () => {
+        navigate('/login') }
     return (
         <>
         <div>
@@ -137,8 +144,11 @@ function PostSignUp() {
             </tr>
         </div>
             <div className='signedup'>
-                <h1> 
-                    You are signed up or already logged in. Please head to the Login Page to login and start using your account if you are not logged in! If you are already logged in, head to the Marketplace Page to look at items for sale!
+                <h1>You are signed up or already logged in. Please head to the
+                    <button className='login' onClick={navToLogin}>Login Page</button>
+                    to login and start using your account if you are not logged in! If you are already logged in, head to the
+                    <button className='marketplace' onClick={navToMarketPlace}>MarketPlace Page</button>
+                    to look at items for sale!
                 </h1>
             </div>
         </>

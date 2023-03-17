@@ -1,34 +1,33 @@
 import React from 'react';
+import 'firebase/compat/firestore';
+import 'firebase/firestore';
+import '../../firebase-config';
 import {useState, useEffect} from 'react';
-import {db, storage} from '../../firebase-config';
-import { getFirestore, collection, collectionGroup, getDoc, getDocs, QuerySnapshot, query, where, get, doc, onSnapshot} from 'firebase/firestore';
+import {db} from '../../firebase-config';
+import {collectionGroup, getDocs, query, where} from 'firebase/firestore';
 import './marketplace.css';
 import defaultPic from "./../default-placeholder.png";
-import { async } from '@firebase/util';
-import { Slide } from 'react-slideshow-image';
-import 'react-slideshow-image/dist/styles.css'
+import 'react-slideshow-image/dist/styles.css';
+import {useNavigate } from 'react-router-dom';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 function MarketPlace() {
+  //const db = firebase.firestore();
   const [items, setItems] = useState([]);
   const [searchState, setSearchState] = useState();
   const [errorMessage, setErrorMessage] = useState('');
   const [totalItems, setTotalItems] = useState('');
   const [sortOpen, setSortOpen] = useState(false);
   const [sortOption, setSortOption] = useState("Sort");
-  const allItemsRef = collection(db, "allItems");
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [imagesUploaded, setImagesUploaded] = useState(false);
+  const nav = useNavigate();
 
-  const spanStyle = {
-    padding: '20px',
-    background: '#efefef',
-    color: '#000000'
-  }
-  
-  const divStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundSize: 'cover',
-    height: '400px'
+  const handleItemClick = (item) => {
+    const images = item.images;
+    nav(`/item/${item.id}`, {state: {images}});
+    setSelectedItem(item.id);
   }
 
   useEffect(() => {
@@ -47,17 +46,20 @@ function MarketPlace() {
     fetchItems();
   }, []);
 
+
   useEffect(()=> {
     items.forEach(async (item) => {
       const itemImages = query(collectionGroup(db, 'images'), where('item', '==', item.id));
       const imagesSnapshot = await getDocs(itemImages);
       const imagesData = imagesSnapshot.docs.map((doc) => doc.data().url);
       setItems(prevItems => prevItems.map(prevItem => {
-        if(prevItem.id == item.id) {
+        if(prevItem.id === item.id) {
           return {...prevItem, images: imagesData.length ? imagesData : [defaultPic]};
         }
         return prevItem;
       }));
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // example async operation
+      setImagesUploaded(true);  
     });
     if(items.length == 1){setTotalItems('1 result')}
     else {setTotalItems(items.length + ' results')}
@@ -174,16 +176,18 @@ var diff = parseInt(((Date.now()/1000)-item.time.seconds), 10);
       <h2> {errorMessage} </h2>
 
       <div className="items">
-        {items.map((item, index) => {
-          return <div className="item"> 
+        {items.map((item) => {
+          return <div className="item" key={item.id} onClick={() => handleItemClick(item)}> 
             <div className='itemImage'>
-              <p>{item.images?.map((url) => <img src={url} alt="" />)}</p>
+              <p>{item.images && item.images.length > 0 && <img src={item.images[0]} alt=""/>}</p>
             </div>
             <div className='itemInfo'>
               <h2>{item.itemName}</h2>
               <p>{item.itemDesc}</p> 
-              <p>{item.itemPrice}</p>
-              <p>{parseDate(item)} ago</p>
+              <div className='itemInfoBottom'>
+                <h2>${item.itemPrice}</h2>
+                <p>{parseDate(item)} ago</p>
+              </div>
             </div>
           </div>
         })}

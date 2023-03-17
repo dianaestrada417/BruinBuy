@@ -8,18 +8,19 @@ import { v4 } from "uuid";
 import defaultPic from "../default-placeholder.png";
 import "./profile.scss";
 import { UserContext } from '../../contexts/UserContext';
+import { useNavigate } from "react-router-dom";
 
 function Profile(){
   const { User, setUser } = useContext(UserContext);
   const [ isLoggedIn, setIsLoggedIn] = useState(null);
-  useEffect(() => {
+  /*useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       const foundUser = loggedInUser;
       setUser(foundUser);
       setIsLoggedIn(true);
     };
-  }, [setUser]);
+  }, [setUser]);*/
 
   return (
     <div >
@@ -34,12 +35,19 @@ function Profile(){
 }
 
 function NotLoggedInProfile() {
+  let navigate = useNavigate();
+  const navToLogin = () => {
+    navigate('/login') }
+  const navToSignup = () => {
+    navigate('/signup') }
   return (
     <>
-      <div >
-        <td height="20"></td>
-        <h1>
-          Head to the Login or Sign Up page to access your account.
+      <div className='loginsuccess'>
+        <h1>Head to the 
+          <button className='login' onClick={navToLogin}>Login Page</button>
+          or
+          <button className='signup' onClick={navToSignup}>Sign Up Page</button>
+          to access your account.
         </h1>
       </div>
     </>

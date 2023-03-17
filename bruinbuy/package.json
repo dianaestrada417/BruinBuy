@@ -17,6 +17,10 @@
     "react-slideshow-image": "^4.2.1",
     "react-window": "^1.8.8",
     "sass": "^1.59.3",
+<<<<<<< HEAD
+=======
+    "slick-carousel": "^1.8.1",
+>>>>>>> f9264b2a3ef10c844087d09503dada6ff13296e3
     "styled-components": "^5.3.6",
     "uuid": "^9.0.0",
     "web-vitals": "^2.1.4"

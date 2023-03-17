@@ -1,3 +1,6 @@
+//Background image code helped by: 
+//https://www.freecodecamp.org/news/react-background-image-tutorial-how-to-set-backgroundimage-with-inline-css-style/
+
 import React from 'react';
 import IMG from "./IMG_0076.jpeg"
   
