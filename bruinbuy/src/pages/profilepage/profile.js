@@ -13,12 +13,21 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const { User} = useContext(UserContext);
   const [ isLoggedIn, setIsLoggedIn] = useState(false);
-  console.log(User)
-  useEffect(() => {
+  
+  /*useEffect(() => {
     if (User) {
       setIsLoggedIn(true);
     };
-  }, [User, setIsLoggedIn]);
+  }, [User, setIsLoggedIn]);*/
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = loggedInUser;
+      setUser(foundUser);
+      setIsLoggedIn(true);
+    };
+  }, [setUser]);
 
   return (
     <div >

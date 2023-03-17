@@ -1,3 +1,7 @@
+.page{
+    width: 100%;
+}
+
 .item_Info h2{
     font-size: 3vw;
 }
@@ -9,14 +13,29 @@
 .itemContainer{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: center;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
-.item_Left img{
+.item_Left{
+    margin-left: 80px;
+    width: 50%;
+}
+
+.itemImage{
     width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.itemImage img{
+    max-width: 100%;
+    height: auto;
 }
 
 .item_Right {
+    width: 50%;
     /*margin-left: 50px;*/
 }
 
