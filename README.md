@@ -18,6 +18,32 @@ cd src
 
 npm install
 
+npm install react
+
+npm install firebase
+
+npm install react-dom
+
+npm install react-firebase-hooks
+
+npm install react-icons
+
+npm installreact-router-dom
+
+npm install react-router
+
+npm install react-window
+
+npm install sass
+
+npm install slick-carousel
+
+npm install styled-components
+
+npm install uuid
+
+npm install web-vitals
+
 npm install react-slideshow-image
 
 npm install react-slick
