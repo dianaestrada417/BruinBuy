@@ -7,11 +7,16 @@ import './login.css'
 import {db} from '../../firebase-config';
 
 const Login = () => {
-  const User = useContext(UserContext);
+  const {User} = useContext(UserContext);
+  if(!User)
+  {
+    localStorage.setItem('user', 'false')
+  }
+  var loggedInUser = localStorage.getItem('user')
   return (
     <div>
       <section>
-        {User ? <LoginSuccess/>: <NoLogin/>}
+        {loggedInUser !== 'false' ? <LoginSuccess/>: <NoLogin/>}
       </section>
     </div>
   )
@@ -103,19 +108,19 @@ const NoLogin = () => {
       <div className="form">
           <div className="form-body">
               <div className="email">
-                  <label className="form__label" for="email">Email </label>
+                  <label className="form__label" >Email </label>
                   <input  type="email" id="email" className="form__input2" value={email} onChange = {(e) => handleInputChange(e)} placeholder="Email"/>
               </div>
               <div className="password">
-                  <label className="form__label" for="password">Password </label>
+                  <label className="form__label" >Password </label>
                   <input className="form__input" type="password"  id="password" value={password} onChange = {(e) => handleInputChange(e)} placeholder="Password"/>
               </div>
               <div>
                 <label className="error__label"> {errorMessage} </label>
               </div>
           </div>
-          <div class="footer">
-            <button onClick={()=>handleSubmit()} type="submit" class="btn">Log in</button>
+          <div className="footer">
+            <button onClick={()=>handleSubmit()} type="submit" className="btn">Log in</button>
           </div>
       </div>  
       </>

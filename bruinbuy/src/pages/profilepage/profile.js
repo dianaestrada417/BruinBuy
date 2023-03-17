@@ -10,9 +10,16 @@ import "./profile.scss";
 import { UserContext } from '../../contexts/UserContext';
 import { useNavigate } from "react-router-dom";
 
-function Profile(){
-  const { User, setUser } = useContext(UserContext);
-  const [ isLoggedIn, setIsLoggedIn] = useState(null);
+const Profile = () => {
+  const { User} = useContext(UserContext);
+  const [ isLoggedIn, setIsLoggedIn] = useState(false);
+  
+  /*useEffect(() => {
+    if (User) {
+      setIsLoggedIn(true);
+    };
+  }, [User, setIsLoggedIn]);*/
+
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
@@ -34,7 +41,7 @@ function Profile(){
   );
 }
 
-function NotLoggedInProfile() {
+const NotLoggedInProfile = () => {
   let navigate = useNavigate();
   const navToLogin = () => {
     navigate('/login') }
@@ -54,7 +61,8 @@ function NotLoggedInProfile() {
   )
 }
 
-function LoggedInProfile (props) {
+const LoggedInProfile = (props) => {
+  const { setUser } = useContext(UserContext);
   const [newItemName, setNewItemName] = useState("");
   const [newItemDesc, setNewItemDesc] = useState("");
   const [newItemPrice, setNewItemPrice] = useState(0);
@@ -221,6 +229,12 @@ function LoggedInProfile (props) {
     });
   }, [items]);
 
+  const SignOut = () => {
+    useEffect(() => {
+      setUser(null)
+    }, []);
+  }
+
   return (
     <div>
       <h1>{userFirstName}'s Profile</h1>
@@ -325,6 +339,7 @@ function LoggedInProfile (props) {
           }
         })}
       </div>
+      <button onClick={SignOut}>Sign Out</button>
     </div>
   );
 };

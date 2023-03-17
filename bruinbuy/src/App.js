@@ -24,6 +24,7 @@ function App() {
     <div className="App">
       <UserContext.Provider value={{User, setUser}}>
         <ChatContextProvider>
+          
           <Router>
             <Navbar> </Navbar>
             <Routes>
@@ -37,6 +38,7 @@ function App() {
             <Route path='/item/:itemId/:agoString' element={<ItemInfoPage/>} />
             </Routes>
           </Router>
+          
         </ChatContextProvider>
       </UserContext.Provider>
     </div>

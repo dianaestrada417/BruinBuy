@@ -13,13 +13,8 @@ import ChatBlock from './components/ChatBlock'
 
 
 function Chat() {  
-  const {User, setUser} = React.useContext(UserContext)
-  useEffect(() => {
-    const loggedInUser = localStorage.getItem("user");
-    if (loggedInUser) {
-      setUser(loggedInUser);
-    }
-  }, []);
+  const {User} = React.useContext(UserContext)
+  console.log(User)
   
     return (
       <div className='Chat'>
