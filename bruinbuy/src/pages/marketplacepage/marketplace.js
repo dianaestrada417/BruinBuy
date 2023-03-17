@@ -184,8 +184,10 @@ var diff = parseInt(((Date.now()/1000)-item.time.seconds), 10);
             <div className='itemInfo'>
               <h2>{item.itemName}</h2>
               <p>{item.itemDesc}</p> 
-              <p>{item.itemPrice}</p>
-              <p>{parseDate(item)} ago</p>
+              <div className='itemInfoBottom'>
+                <h2>${item.itemPrice}</h2>
+                <p>{parseDate(item)} ago</p>
+              </div>
             </div>
           </div>
         })}

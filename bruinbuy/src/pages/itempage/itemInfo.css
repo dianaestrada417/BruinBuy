@@ -1,9 +1,25 @@
-.item_Info{
-    margin-left: 100px;
-    margin-right: 100px;
-    max-width: 500px;
+.item_Info h2{
+    font-size: 3vw;
 }
 
 .slick-prev:before, .slick-next:before{
     color:#071330;
+}
+
+.itemContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.item_Left img{
+    width: 100%;
+}
+
+.item_Right {
+    /*margin-left: 50px;*/
+}
+
+@media (max-width: 2000px) {
+
 }

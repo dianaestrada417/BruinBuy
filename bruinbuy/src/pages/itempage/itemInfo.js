@@ -12,20 +12,28 @@ function ItemInfoPage(props){
     const location = useLocation();
     const images = location.state ? location.state.images : null;
     const [item, setItem] = useState(null);
+    const [sellerFullName, setSellerFullName] = useState("");
 
     useEffect(() => {
+      const getItemData = async () =>{
         const itemRef = db.collection('allItems').doc(itemId);
-        itemRef.get().then((doc) => {
-          if (doc.exists) {
-            setItem(doc.data());
-            console.log("item set!");
-          } else {
-            console.log('No such document!');
+        const itemData = await itemRef.get();
+        if(itemData.exists) {
+          setItem(itemData.data());
+          console.log("item loaded", itemData.data())
+
+          const sellerRef = db.collection("signups").doc(itemData.data().user);
+          const sellerData = await sellerRef.get();
+          if(sellerData.exists){
+            const sellerDataObj = sellerData.data();
+            setSellerFullName(sellerDataObj.fullName);
           }
-        }).catch((error) => {
-          console.log('Error getting document:', error);
-        });
-      }, [itemId]);
+        }
+      };
+      getItemData();  
+    }, [itemId]);  
+
+
 
     if (!item) {
         return <div>
@@ -43,37 +51,45 @@ function ItemInfoPage(props){
       };
 
     return(
-        <div className="item_Info">
+        <div className="page">
             <h1>Item Info Page</h1>
+            <div className='itemContainer'>
+              <div className="item_Left">
+                  {images ? (
+                      <Slider {...settings}>
+                          {images.map((url) => (
+                          <div className="itemImage" key={url}>
+                              <img src={url} alt="" />
+                          </div>
+                          ))}
+                      </Slider>
+                      
+                  ): (
+                      <div>
+                          <p>No images available...</p>
+                      </div>
+                  )}
 
-            <div className="item_Image">
-                {images ? (
-                    <Slider {...settings}>
-                        {images.map((url) => (
-                        <div key={url}>
-                            <img src={url} alt="" />
-                        </div>
-                        ))}
-                    </Slider>
-                    
-                ): (
-                    <div>
-                        <p>No images available...</p>
-                    </div>
-                )}
+
+              </div>
+              
+              <div className="item_Right">
+                <div className="item_Info">
+                    <h2>{item.itemName}</h2>
+                    <p>{item.itemDesc}</p>
+                    <p>{item.itemPrice}</p>
+                    <p>{item.userFullName}</p>
+                </div>
 
 
-            </div>
-
-            <div className="itemInfo">
-                <h2>{item.itemName}</h2>
-                <p>{item.itemDesc}</p>
-                <p>{item.itemPrice}</p>
-                <p>{item.userFullName}</p>
+                <div className='chatWith'>
+                    <p>Chat with Seller</p>
+                    <p>Ask {sellerFullName}</p>
+                </div>
+              </div>
             </div>
         </div>
     );
 }
 
 export default ItemInfoPage;
-//<p>{images && images.length > 0 && images.map((url) => <img src={url} alt="" />)}</p>
