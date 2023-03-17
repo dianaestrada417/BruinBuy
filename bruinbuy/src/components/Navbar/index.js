@@ -1,3 +1,5 @@
+//Navbar code helped by:  https://www.geeksforgeeks.org/create-a-responsive-navbar-using-reactjs/ 
+
 import React, {useState} from 'react';
 import {
   Nav,
@@ -10,7 +12,6 @@ import './index.css'
 
 const Navbar = () => {
   const [isNavExpanded, setIsNavExpanded] = useState(false)
-  console.log(isNavExpanded)
     return (
       <>
         <Nav>

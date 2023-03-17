@@ -36,3 +36,33 @@
 .loginsuccess {
     padding: 20px;
 }
+
+button.marketplace {
+    background-color: transparent;
+    color: black;
+    padding:0.5%;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+button.marketplace:hover {
+    background-color: transparent;
+    color: #FFC000;
+    padding:0.5%;
+    font-weight: bold;
+}
+
+button.profile {
+    background-color: transparent;
+    color: black;
+    padding:0.5%;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+button.profile:hover {
+    background-color: transparent;
+    color: #FFC000;
+    padding:0.5%;
+    font-weight: bold;
+}
