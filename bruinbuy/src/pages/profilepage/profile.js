@@ -11,7 +11,7 @@ import { UserContext } from '../../contexts/UserContext';
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const { User} = useContext(UserContext);
+  const { User, setUser} = useContext(UserContext);
   const [ isLoggedIn, setIsLoggedIn] = useState(false);
   
   /*useEffect(() => {
