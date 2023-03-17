@@ -9,18 +9,18 @@ import { UserContext } from '../../contexts/UserContext';
 import {db} from '../../firebase-config';
 
 function SignUp() {
-    const [signup, setSignup] = useState(null)
-    const User = useContext(UserContext)
-    useEffect(() => {
-        const signupSuccess = localStorage.getItem('success')
-        if(signupSuccess === true || User !== null) {
-          setSignup(true);
-        console.log(signupSuccess)
-        }
-    }, [User]);
-
+    const [signup, setSignup] = useState(true)
+    const { User } = useContext(UserContext)
+    var success = localStorage.getItem("success")
     console.log(User)
-    console.log(signup)
+    useEffect(() => {
+        if(success && User !== null) {
+            setSignup(true);
+        }
+        else {
+            setSignup(false)
+        }
+    }, [success, User, setSignup]);
     return (
         <div className='Signup'>
             <section>
@@ -99,11 +99,11 @@ function SignUpForm() {
       <div className="form">
           <div className="form-body">
               <div className="username">
-                  <label className="form__label" for="firstName">First Name </label>
+                  <label className="form__label" >First Name </label>
                   <input className="form__input" type="text" value={firstName} onChange = {(e) => handleInputChange(e)} id="firstName" placeholder="First Name"/>
               </div>
               <div className="lastname">
-                  <label className="form__label" for="lastName">Last Name </label>
+                  <label className="form__label" >Last Name </label>
                   <input  type="text" name="" id="lastName" value={lastName}  className="form__input" onChange = {(e) => handleInputChange(e)} placeholder="Last Name"/>
               </div>
               <div className="email">
@@ -122,8 +122,8 @@ function SignUpForm() {
                 <errormsg className='err'>{err}</errormsg>
               </div>
           </div>
-          <div class="footer">
-            <button onClick={()=>handleSubmit()} type="submit" class="btn">Register</button>
+          <div className="footer">
+            <button onClick={()=>handleSubmit()} type="submit" className="btn">Register</button>
           </div>
       </div>  
       </> 
